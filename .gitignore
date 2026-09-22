@@ -1,0 +1,31 @@
+# Secrets / environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# Dependency locks are pinned deliberately in A-02; do not ignore lock files here.
+
+# Snapshots / local data (never commit raw source snapshots or secrets)
+snapshots/
+data/
+*.sqlite3
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

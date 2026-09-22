@@ -1,0 +1,14 @@
+{
+  "status": "EMPTY_BY_DESIGN_NOT_IMPORTED",
+  "source_repository": "MVP 1.6 research repository, actual path/commit to be verified by DEV under Stage A",
+  "items": [],
+  "forbidden_auto_copy": [
+    "AGENTS.md old",
+    "PROJECT_INSTRUCTIONS_AND_STRUCTURE.md old",
+    "datasets",
+    "embeddings",
+    "old pyproject/lock",
+    "secrets",
+    "whole research repository"
+  ]
+}

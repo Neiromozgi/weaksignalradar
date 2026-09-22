@@ -1,0 +1,487 @@
+{
+  "release_id": "WSR-RC2-A-ACTIVE-20260922",
+  "based_on_release": "WSR-CURSOR-HANDOFF-RC2-2026-09-22",
+  "activated_date": "2026-09-22",
+  "po_decision": "RC2_ARCHITECTURE_BASE_APPROVED_STAGE_A_ONLY",
+  "stage_authorizations": {
+    "A": "AUTHORIZED_PO_2026-09-22",
+    "B": "NOT_AUTHORIZED",
+    "C": "NOT_AUTHORIZED",
+    "PUBLICATION": "NOT_AUTHORIZED"
+  },
+  "qa_status": "QA08_BLOCKED_FULL; STAGE_A_IMPLEMENTATION_AUTHORIZED_NOT_TESTED",
+  "active_entrypoint": "00_START_HERE/ACTIVE_STAGE_A.md",
+  "active_decision_register": "01_DECISIONS/DECISION_REGISTER.md",
+  "active_stage_a_contract": "04_CONTRACTS_STAGE_A_ACTIVE/stage_a_contract.json",
+  "active_tickets": "07_STAGED_TASKS/STAGE_A_TICKETS_ACTIVE.md",
+  "active_new_repo_instructions": [
+    "05_REPOSITORY_TEMPLATE/AGENTS.md",
+    "05_REPOSITORY_TEMPLATE/PROJECT_INSTRUCTIONS_AND_STRUCTURE.md"
+  ],
+  "active_role_instructions": [
+    "06_CURSOR_ROLES/DEV.md",
+    "06_CURSOR_ROLES/TEST.md",
+    "06_CURSOR_ROLES/PRECHECK.md"
+  ],
+  "method_owner_change_request": "08_QA_AND_GATES/METHOD_OWNER_CHANGE_REQUEST.md",
+  "active_method_for_B": null,
+  "active_prompts_for_B": null,
+  "method_reference_only": "03_METHOD_RC1_UNCHANGED/METH-0.2.1.md",
+  "prompt_reference_only": "03_METHOD_RC1_UNCHANGED/PROMPT-BUNDLE_PB-0.1.1.md",
+  "benchmark_status": "DEFERRED_UNTIL_TRUE_E2E_FREEZE",
+  "organizer_confidence_request_status": "DRAFT_NOT_SENT",
+  "version_precedence": [
+    "Official TZ and organizers",
+    "PO decisions including Stage-A authorization",
+    "THIS release manifest + active Stage-A contract/tickets/instructions",
+    "RC2 architectural basis (B/C only design)",
+    "METH RC1 reference; Method-owner next revision requires own QA and PO B authorization"
+  ],
+  "files": [
+    {
+      "path": "00_RELEASE_GUIDE_RC2.docx",
+      "sha256": "185a7f32615e502c8ae29e572d08fdfeb584956bd3fcc849f6dbd6fb8147795f",
+      "bytes": 40437,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "00_START_HERE/ACTIVE_STAGE_A.md",
+      "sha256": "3c6b9842901925e25b96fddd46c8fb176d52461c0e0da6a8e4d6c776bd5309ce",
+      "bytes": 3358,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "00_START_HERE/README_FIRST.md",
+      "sha256": "37c0e5e1f7355522e3e9defda778a4c2561615e4bc8cdc34fda7f3ca59f834fe",
+      "bytes": 4598,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "00_START_HERE/VERIFY_RELEASE.py",
+      "sha256": "87c5ea2aeabe6ea168187f8dd2af64d0396681f17395dc5b18896fe225208c05",
+      "bytes": 649,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "00_ИТОГОВОЕ_РУКОВОДСТВО_НА_РУССКОМ_RC2.docx",
+      "sha256": "9c17147df4b1c8fe3b940380dc8083566c5357f2aa2cd3dc7ad56b23b6ee73b4",
+      "bytes": 44219,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "01_DECISIONS/DECISION_REGISTER.md",
+      "sha256": "58fb1da4c2a8f77657ad121313f5945fa58d7d39a7b3fc24d455c72f4e28b074",
+      "bytes": 7192,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "01_MASTER_SPEC_RC2.docx",
+      "sha256": "2e89030e00aece2ed91b45079ab4dfa2d903b18f1b7d1f2ec67c5692b92177dc",
+      "bytes": 47180,
+      "status": "APPROVED_ARCHITECTURE_BASE_DESIGN_NOT_EXECUTION_PERMISSION_BC"
+    },
+    {
+      "path": "02_ARCHITECTURE/ARCH_FLOW.mmd",
+      "sha256": "5ce2a7c69bda55d0b09bd60eb77109659066b56b80a992ec6cf473d8d2e6a79d",
+      "bytes": 575,
+      "status": "APPROVED_ARCHITECTURE_BASE_DESIGN_NOT_EXECUTION_PERMISSION_BC"
+    },
+    {
+      "path": "02_ARCHITECTURE/MASTER_SPEC.md",
+      "sha256": "0f7decc54baa1b8b48d6606b6b2fed6b94c647ab24ba4cdf50088e168cabc4df",
+      "bytes": 18329,
+      "status": "APPROVED_ARCHITECTURE_BASE_DESIGN_NOT_EXECUTION_PERMISSION_BC"
+    },
+    {
+      "path": "02_REPOSITORY_ENGINEERING_RC2.docx",
+      "sha256": "afcd1a67669e7ae84ad31eb42dcb58919338b2762da5c2f71a828e254b8679c5",
+      "bytes": 40685,
+      "status": "APPROVED_ARCHITECTURE_BASE_DESIGN_NOT_EXECUTION_PERMISSION_BC"
+    },
+    {
+      "path": "03_CURSOR_PLAN_AND_AGENTS_RC2.docx",
+      "sha256": "0d8b58538821e8d9128ebc96d7fd87758ac98225e61d8a6a06727fac18529c16",
+      "bytes": 41845,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/BLOCKER_REGISTER.csv",
+      "sha256": "f5bae45732439f23b9f6ffae6181a849871c8e284330ef1f55a93d4bdf5c312f",
+      "bytes": 790,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/CHANGELOG.md",
+      "sha256": "42271875846ff8b318d3e1f17c6656d06f995b7bcdc512acb9281bafac592e86",
+      "bytes": 2246,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/MANIFEST.json",
+      "sha256": "37fbf11c37f1a25a4f72bb473537f5f608312722be931c4d9bb0532b02712334",
+      "bytes": 5309,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/METH-0.2.1.md",
+      "sha256": "30d2662f8b4c106834019de9ee49bf7e97877fbc4f4e21bed1c9106393933ac8",
+      "bytes": 17533,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/PROMPT-BUNDLE_PB-0.1.1.md",
+      "sha256": "6cff03fbfbbdaebbaa51cfb2ae4751de290e92aa3efe0d8777f6c6e41222b2e2",
+      "bytes": 45029,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/QA_REVIEWER_CHECKLIST.md",
+      "sha256": "27634e48af9634956774616b2ec49d9321780d28d50dec4dedbd14f55fe1881d",
+      "bytes": 1679,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/README.md",
+      "sha256": "cf85a74aa6cf673cb95492b125057ef91bf20c00e3f6c565923c4fbf53d3b644",
+      "bytes": 524,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/SHA256_MANIFEST.json",
+      "sha256": "45c4436f9f8c3c06622bd4a4b0e19ec1dc22b0597cc1f5c1876cdb6b2e050d05",
+      "bytes": 3169,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/TEST_EXECUTION_LOCAL.txt",
+      "sha256": "c7fdf92b62e26f5fa4fb3a637001560643b77e994bb3a0901683a0659fc58e52",
+      "bytes": 119,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/base_draft2/METH-0.2.md",
+      "sha256": "ef99401a1fa5dda4211ad0356b59303af4b56dbfae6ede5feaf96075418a2a18",
+      "bytes": 62358,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/base_draft2/README.md",
+      "sha256": "e38aa7ce6c26fd3770a89a52e603aadb6d92501090756f0ad17e324af23f9a16",
+      "bytes": 423,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/docs/WeakSignalRadar_METH-0.2.1-RC1_22-09-2026.docx",
+      "sha256": "c2e556810f47f366f2886e6aeb6fad5cd33b7b4e0854203aa79f35ffd4c1e7eb",
+      "bytes": 18817,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/docs/WeakSignalRadar_PROMPT-BUNDLE_PB-0.1.1-RC1_22-09-2026.docx",
+      "sha256": "05dfb4a91f752338e5b7678ad892e1425664de90965ef836e2cf4235de7d8398",
+      "bytes": 25341,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/fixtures/expected_tests.json",
+      "sha256": "dc50543df93c02a93d6c58d0e38e0b9b9bc3387975b6df2770150f9c78c0f0ff",
+      "bytes": 3463,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/prompts/CLAIM-EVENT-01.md",
+      "sha256": "740d36d03e02cc99e929c6f77e9f5d003a9878621eb3fa5515e37589ece9cd6e",
+      "bytes": 10000,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/prompts/EXPLAIN-01.md",
+      "sha256": "5251bfe55dbe36452c79a7143f62c1a3ed3cf79bd0b04ff63c4741f6ff505cfa",
+      "bytes": 9480,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/prompts/NAME-01.md",
+      "sha256": "dc2345a5722ddadf7a7861eaf587d68d54dcb598ff37d60719b5e00bd43bde4b",
+      "bytes": 7974,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/prompts/OBJECT-01.md",
+      "sha256": "2b5bac86061e8d24323d12c830e0de523556f3afe9260e6195e75ef5223a5c56",
+      "bytes": 9693,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/prompts/TERM-01.md",
+      "sha256": "db5d6df5b45c44e2c3d793a635be35655132561d37053eb1a1d9fb733e412b38",
+      "bytes": 7734,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/CLAIM-EVENT-01.output.schema.json",
+      "sha256": "c21916c5a551df4acf5e0ffd3c58896963f0033c0ab5388ca815f678006ec7e0",
+      "bytes": 7346,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/CLAIM_VERIFICATION_RECORD.schema.json",
+      "sha256": "28bf5fc08dbe6b7c3266175f94de10c3678d856a00072859728afbcdda907923",
+      "bytes": 4624,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/CROSS_RECORD_VALIDATION.schema.json",
+      "sha256": "e532999d0cc51cf164ef86e4fe67035ae0d73d844df84665f9ea4920129d7f85",
+      "bytes": 1706,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/DIAGNOSTIC_RECORD.schema.json",
+      "sha256": "4e6cf92f69a5e6cf6a97f096123f3ddebca8c9cc5d93cc0c927b468c4e5ce750",
+      "bytes": 13579,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/EXPLAIN-01.output.schema.json",
+      "sha256": "997c134ced8bb5bffd3b0eb56ead5bca330c4c2e111c6f0b299450a89b16c3cc",
+      "bytes": 10294,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/INPUT_COMMON.schema.json",
+      "sha256": "692503d7e335b508a3bb479fb6c4b958d83697bdfd47c8bb8db9714552ea71b1",
+      "bytes": 2052,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/NAME-01.output.schema.json",
+      "sha256": "9d9ac143e5e39204c4734789de00cc3928274980235b9f0bf6192478b6b382b8",
+      "bytes": 9693,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/OBJECT-01.output.schema.json",
+      "sha256": "d183c06392eff11d65d046a75bc034cbefd9305f4eca2a46d9605d8db308dd80",
+      "bytes": 7410,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/TERM-01.output.schema.json",
+      "sha256": "92f35a6e2d880fa604b7e7e3705f866a71bc8ed66ba957e9304405c91fd07619",
+      "bytes": 2992,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/schemas/VERIFICATION_RULE_CATALOG.json",
+      "sha256": "7366b4fecc25a405fc743619792be4a861124134611e65ebc668df6f9d3f29cd",
+      "bytes": 3810,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/tests/cross_record_validator_reference.py",
+      "sha256": "b70d3149f8679a29fdb55ab9575e1089ac08088a9e16d3ea88c1b1294828d418",
+      "bytes": 2705,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/tests/reference_rules.py",
+      "sha256": "993f5910bd001b6e015fd575ddacf772ff20d21a194c6025fee841ca134535c3",
+      "bytes": 4508,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "03_METHOD_RC1_UNCHANGED/tests/test_def22.py",
+      "sha256": "d943d44396888815736bc5c42e97160cbe5aee319b2da593896c5f1eab787c4c",
+      "bytes": 6586,
+      "status": "REFERENCE_ONLY_BLOCKED_FOR_B_PENDING_METHOD_OWNER_QA"
+    },
+    {
+      "path": "04_CONTRACTS_ARCHITECT_PROPOSED/PROMPT_VERSION_LOCK_PROPOSED.json",
+      "sha256": "b7b97abff4f91020efddf1baac2bcc116078ed9fc4fe92c2691f92a7540cd1f3",
+      "bytes": 753,
+      "status": "PROPOSED_FOR_BC_NOT_ACTIVE"
+    },
+    {
+      "path": "04_CONTRACTS_ARCHITECT_PROPOSED/cross_record_rules_rc2.json",
+      "sha256": "18ce7abf179e92206a1a2c773240caaf7a48bd6212516ca45a4c6fa34d220cc6",
+      "bytes": 2441,
+      "status": "PROPOSED_FOR_BC_NOT_ACTIVE"
+    },
+    {
+      "path": "04_CONTRACTS_ARCHITECT_PROPOSED/runtime_interfaces_rc2.json",
+      "sha256": "ae6c4b1926ef8946ce6f918b28e515732e60426086b32c2f5a1ee00f4a17be18",
+      "bytes": 3089,
+      "status": "PROPOSED_FOR_BC_NOT_ACTIVE"
+    },
+    {
+      "path": "04_CONTRACTS_ARCHITECT_PROPOSED/source_registry_rc2.json",
+      "sha256": "97e86f2c1f40eb3b6583fd2442e00028aad8bdba39a2342bc010253de4d74246",
+      "bytes": 854,
+      "status": "PROPOSED_FOR_BC_NOT_ACTIVE"
+    },
+    {
+      "path": "04_CONTRACTS_STAGE_A_ACTIVE/stage_a_contract.json",
+      "sha256": "d6fc931531fd5481c8ba8860a4395256a3fe738ce7f51d9b1a578478f278dcee",
+      "bytes": 4641,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "04_QA_DEFECT_AND_TESTS_RC2.docx",
+      "sha256": "20338cfb782c858b4a8e83be166723b10b7c31dc2205e776f4380878b6701a80",
+      "bytes": 40637,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "05_REPOSITORY_TEMPLATE/AGENTS.md",
+      "sha256": "fff1b29d32d7ffe04ee012b80ea869d2dd7b43784663bba76aa8154ca82a064d",
+      "bytes": 3888,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "05_REPOSITORY_TEMPLATE/DEPENDENCIES_AND_COMMANDS.md",
+      "sha256": "69f382ca4bdedb17c1d51d76675c1f440d234de5b7ca2d93735bd0b79b250d6c",
+      "bytes": 1721,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "05_REPOSITORY_TEMPLATE/IMPORT_MANIFEST_TEMPLATE.json",
+      "sha256": "ea97e8d43401b692b01c744a7659df245c312e704a0ee36cb20f7a437b0d1662",
+      "bytes": 702,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "05_REPOSITORY_TEMPLATE/PROJECT_INSTRUCTIONS_AND_STRUCTURE.md",
+      "sha256": "7c7c4535f4742d28a7cce639269f4b75a36ac608aa88e3cc05192af1558a516c",
+      "bytes": 1525,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "05_REPOSITORY_TEMPLATE/REPOSITORY_BLUEPRINT.md",
+      "sha256": "fb22605532accf513164bbbc20a7314d336abb591fcd51928cca823bed43c416",
+      "bytes": 5169,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "06_CURSOR_ROLES/DEV.md",
+      "sha256": "446dfae6462457a689d5ee46798f5fd8d088be46451b9639b2a43bdaea4c7b5f",
+      "bytes": 922,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "06_CURSOR_ROLES/PRECHECK.md",
+      "sha256": "fc7af1ee20a7d10faf2a7926ff977881c2403443b255bea6e367341dc18a26c0",
+      "bytes": 894,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "06_CURSOR_ROLES/TEST.md",
+      "sha256": "cde7d74cff7ba8d1ac99bd88e71d4300d4b632456b872cfa4d34122c8e66854b",
+      "bytes": 985,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "07_STAGED_TASKS/STAGE_A_TICKETS_ACTIVE.md",
+      "sha256": "d9a310bd7294a7a14d9be601f478e0b4eb1f6524ec95ac5a019f1d230b7a76fb",
+      "bytes": 5708,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    },
+    {
+      "path": "07_STAGED_TASKS/TASKS_AND_GATES.md",
+      "sha256": "cd844f59abc44cdebc2952ac5b40c64fb568e463b42c3e3398ccc46b081a4a44",
+      "bytes": 6821,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "08_QA_AND_GATES/DEFECT_CLOSURE_MAP.md",
+      "sha256": "eac37075bdf8aeffe5d6251cebb2247fec5e2bbc707162a26afb26777a58122f",
+      "bytes": 4906,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "08_QA_AND_GATES/METHOD_OWNER_CHANGE_REQUEST.md",
+      "sha256": "ac0a9d60ed8d95a041506b995d2b437072c08b248cd609f83746ed2d1f472ff4",
+      "bytes": 1783,
+      "status": "ACTIVE_PARALLEL_METHOD_OWNER_REQUEST_NOT_DEV_TASK"
+    },
+    {
+      "path": "08_QA_AND_GATES/METHOD_OWNER_DISPATCH_ACTIVE.md",
+      "sha256": "145d898b5e2b8b3956272d89e2442b65a1c99f145f011476d6ae8bf28f5e861c",
+      "bytes": 1322,
+      "status": "ACTIVE_PARALLEL_METHOD_OWNER_REQUEST_NOT_DEV_TASK"
+    },
+    {
+      "path": "08_QA_AND_GATES/QA_PLAN.md",
+      "sha256": "a2142ff9b4220f1d307bbf6482fb07fd93bc2e8a4c737aa8a67757a67ed39567",
+      "bytes": 3600,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "08_QA_AND_GATES/qa08_negative_cases_rc2.json",
+      "sha256": "98e8601390e1499bb5c6fccb853446a21703e3323df37cd99376669f5eb43517",
+      "bytes": 2563,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "09_SOURCE_REPORTS/METHOD_RC1_CHANGE_NOTES.docx",
+      "sha256": "81e8627e12ac0ba6223d9bcd033453bffe573a2aa27da42f67f51b4a783eb779",
+      "bytes": 16707,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "09_SOURCE_REPORTS/OFFICIAL_TZ.pdf",
+      "sha256": "226bf6b1834e68574c805e0285b81774ad1332927a0296a57a6aa850b196af03",
+      "bytes": 693539,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "09_SOURCE_REPORTS/QA08_original.docx",
+      "sha256": "430510f78ca02cee029ecd2956b5037906858d2c75fe5cdec2111165f4f9f9eb",
+      "bytes": 30141,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "09_SOURCE_REPORTS/SOURCE_INDEX.md",
+      "sha256": "27ccca87b11209ea2200574684f97564354d35aa15c63ab8cfc3e83333cc2cf0",
+      "bytes": 1224,
+      "status": "REFERENCE_OR_FUTURE_STAGE_NOT_AUTHORIZED"
+    },
+    {
+      "path": "10_LEGACY_FIXTURES_QUARANTINE/README.md",
+      "sha256": "eb61a5a1677d01bc5ebd388b73b2edbe3c6140e951adede4c08bd7d0537aeac7",
+      "bytes": 282,
+      "status": "HISTORICAL_QUARANTINE"
+    },
+    {
+      "path": "10_LEGACY_FIXTURES_QUARANTINE/prompt_examples.json",
+      "sha256": "039387f5979059e608ca75a46dc0c25350e9da52df2414e1137be1930f614a64",
+      "bytes": 26183,
+      "status": "HISTORICAL_QUARANTINE"
+    },
+    {
+      "path": "10_LEGACY_FIXTURES_QUARANTINE/verification_cases.json",
+      "sha256": "859a99a4d3c1f75df2e89774a23b3901f08800e5d17c4cb0c813f75ea5791f22",
+      "bytes": 12880,
+      "status": "HISTORICAL_QUARANTINE"
+    },
+    {
+      "path": "11_BENCHMARK_AND_ORGANIZERS/BENCHMARK_PROTOCOL_PENDING.md",
+      "sha256": "9f75dd60a1bcbf98df45b458aaf598db54d36f88cff0930e8fe27fe1d84a13d6",
+      "bytes": 3206,
+      "status": "DEFERRED_OR_DRAFT_NOT_SENT"
+    },
+    {
+      "path": "11_BENCHMARK_AND_ORGANIZERS/ORGANIZER_CONFIDENCE_DRAFT.md",
+      "sha256": "4afb46ee93bdc918a6be1922b3589ed9277302d15071cb2ddfc098d33d189e05",
+      "bytes": 1703,
+      "status": "DEFERRED_OR_DRAFT_NOT_SENT"
+    },
+    {
+      "path": "00_START_HERE/FIRST_CURSOR_TASK.md",
+      "sha256": "281a68baba47b02bcf8ad609a266f847357c7b1b431bd9c07a8c5ffac898b59a",
+      "bytes": 1843,
+      "status": "ACTIVE_STAGE_A_ONLY"
+    }
+  ],
+  "first_cursor_task": "00_START_HERE/FIRST_CURSOR_TASK.md"
+}

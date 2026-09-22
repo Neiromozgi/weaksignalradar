@@ -1,0 +1,135 @@
+{
+  "$comment": "NORMATIVE ONLY for Stage A. No permission to implement evidence verifier/buckets/ranking.",
+  "release_id": "WSR-RC2-A-ACTIVE-20260922",
+  "schema_version": "A-1.0",
+  "status": "ACTIVE_STAGE_A_ONLY",
+  "coverage": {
+    "enum": [
+      "SEARCHED_OK",
+      "PARTIAL",
+      "SEARCH_ERROR",
+      "NOT_SEARCHED",
+      "UNAVAILABLE"
+    ],
+    "scope": "per source adapter and search run",
+    "rules": {
+      "SEARCHED_OK": "bounded live search completed within declared query scope; never means complete industry coverage",
+      "PARTIAL": "at least some results captured but pagination/time/filters incomplete; preserve reason",
+      "SEARCH_ERROR": "request failed (including exhausted 503) and no verified equivalent live fallback",
+      "NOT_SEARCHED": "source not queried in this run",
+      "UNAVAILABLE": "source is known unavailable or unsupported for requested scope; give reason"
+    },
+    "never_infer": "no results != absent technology, absent market or negative expert label"
+  },
+  "SearchRun": {
+    "required": [
+      "run_id",
+      "query",
+      "scope",
+      "as_of",
+      "params",
+      "requested_sources",
+      "started_at",
+      "status",
+      "rules_version",
+      "code_version"
+    ],
+    "notes": "UUID run_id; query free text, NOT Excel signal name; scope text + explicit filters; as_of ISO-8601 timezone-aware optional; no future evidence; source coverage separate"
+  },
+  "SourceSearchResult": {
+    "required": [
+      "run_id",
+      "documents",
+      "next_cursor",
+      "coverage",
+      "error"
+    ],
+    "documents": "array SourceDocument; empty on error is NOT successful empty search",
+    "next_cursor": "string|null",
+    "coverage": "one of coverage.enum",
+    "error": "structured redacted error|null"
+  },
+  "SourceDocument": {
+    "required": [
+      "source_id",
+      "run_id",
+      "origin_url_or_official_id",
+      "title",
+      "retrieved_at",
+      "request_params",
+      "content_hash",
+      "snapshot_pointer",
+      "source_type",
+      "coverage"
+    ],
+    "optional_nullable": [
+      "author_or_org",
+      "language",
+      "published_at",
+      "event_at",
+      "publicly_available_at",
+      "primary_origin_id"
+    ],
+    "notes": "source ID unique per run; timestamp formats ISO-8601 + timezone for retrieved_at; publication/event/public date unknown must be null, not now/indexed; hash snapshot bytes and track storage permissions"
+  },
+  "SourceSpan": {
+    "status": "STORAGE_PREPARATION_ONLY",
+    "required": [
+      "source_span_id",
+      "source_id",
+      "run_id",
+      "exact_quote",
+      "offset_or_locator",
+      "sha256"
+    ],
+    "notes": "may prepare table but do not assert semantic validity or VERIFIED"
+  },
+  "TaskLog": {
+    "required": [
+      "task_id",
+      "stage",
+      "status",
+      "started_at",
+      "updated_at",
+      "commit_sha",
+      "executed_commands",
+      "exit_codes",
+      "evidence_paths",
+      "blockers"
+    ],
+    "status_enum": [
+      "TODO",
+      "IN_PROGRESS",
+      "BLOCKED",
+      "READY_FOR_TEST",
+      "FAIL",
+      "PASS_REVIEWED"
+    ],
+    "notes": "PASS_REVIEWED only on independent TEST artifact, not DEV claim"
+  },
+  "search_interface": {
+    "input": "search(query: str, scope: object, as_of: ISO8601|null, params: object, cursor: str|null) -> SourceSearchResult",
+    "fetch": "fetch(document_id) -> SourceDocument+snapshot",
+    "error_policy": "bounded retry only; 403 auth error (no secret), 429/503 bounded backoff; terminal error SEARCH_ERROR or PARTIAL, never fixture fallback"
+  },
+  "storage": {
+    "database": "PostgreSQL; reversible first migration for search_runs, source_documents, source_spans (optional), task_log; later B entities only nullable placeholders if explicitly necessary",
+    "snapshot": "local filesystem for raw/redacted capture with checksum and access/retention note",
+    "integrity": "FK source.run_id->search_run.run_id, span.run_id/source_id match, unique IDs, no secrets, no real personal data"
+  },
+  "security": {
+    "SEC-001": "fake-key 403/503/timeout/connection failure tests before ANY live key; redact exception chain, request URL, log and snapshot",
+    "real_key_allowed": "ONLY after independent TEST PASS of SEC-001 and env configuration outside repo",
+    "external_requests": "respect source terms/rate limits; allowlisted HTTPS origins; no user secrets in documents"
+  },
+  "not_authorized": [
+    "LLM extraction",
+    "V2/V3 verification",
+    "classify buckets",
+    "ranking",
+    "TOP15 API",
+    "public code release",
+    "public web deployment",
+    "expert benchmark before frozen end-to-end"
+  ]
+}
