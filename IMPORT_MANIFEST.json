@@ -1,6 +1,6 @@
 {
   "status": "EMPTY_BY_DESIGN_NOT_IMPORTED",
-  "source_repository": "MVP 1.6 research repository, actual path/commit to be verified by DEV under Stage A",
+  "source_repository": "MVP 1.6 research repository; path/commit not verified in this session — OpenAlex adapter was written fresh against stage_a_contract.json (no 1.6 code copied)",
   "items": [],
   "forbidden_auto_copy": [
     "AGENTS.md old",
