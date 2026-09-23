@@ -6,12 +6,15 @@ exception chains, or saved snapshots.
 
 These helpers are deliberately conservative: they strip known-sensitive
 query-string parameter values and any literal secret string that the
-caller explicitly tells them about, wherever it appears in free text.
+caller explicitly tells them about, wherever it appears in free text,
+including full ``traceback.format_exception`` output and exception cause
+chains.
 """
 
 from __future__ import annotations
 
 import re
+import traceback
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 REDACTED = "[REDACTED]"
@@ -63,10 +66,47 @@ def redact_secrets_in_text(text: str, *secrets: str | None) -> str:
     return redacted
 
 
-def sanitize_exception_message(exc: BaseException, *secrets: str | None) -> str:
-    """Build a redacted, loggable message from an exception.
+def redact_secrets_in_bytes(raw: bytes, *secrets: str | None) -> bytes:
+    """Return a copy of ``raw`` with known secrets removed for snapshot storage.
 
-    Never returns the raw ``repr()``/exception chain; only a short,
-    sanitized ``str(exc)`` with secrets and sensitive URL params removed.
+    Decodes as UTF-8 when possible; on decode failure, performs literal
+    byte-substring replacement for each secret's UTF-8 encoding so binary
+    payloads that echo a key still get scrubbed before disk write.
     """
-    return redact_secrets_in_text(str(exc), *secrets)
+    active = [s for s in secrets if s]
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        scrubbed = raw
+        for secret in active:
+            scrubbed = scrubbed.replace(secret.encode("utf-8"), REDACTED.encode("utf-8"))
+        return scrubbed
+    return redact_secrets_in_text(text, *active).encode("utf-8")
+
+
+def sanitize_exception_message(exc: BaseException, *secrets: str | None) -> str:
+    """Build a redacted, loggable short message from an exception.
+
+    Walks ``__cause__`` / ``__context__`` so a nested exception that still
+    carries a secret cannot leak via ``str(exc)`` alone.
+    """
+    parts: list[str] = []
+    seen: set[int] = set()
+    current: BaseException | None = exc
+    while current is not None and id(current) not in seen:
+        seen.add(id(current))
+        parts.append(str(current))
+        current = current.__cause__ or (
+            current.__context__ if not current.__suppress_context__ else None
+        )
+    return redact_secrets_in_text(" | ".join(parts), *secrets)
+
+
+def format_exception_redacted(exc: BaseException, *secrets: str | None) -> str:
+    """Return ``traceback.format_exception`` output with secrets removed.
+
+    This is the SEC-001 boundary check for full formatted exception dumps,
+    including cause/context frames that ``str(exc)`` would miss.
+    """
+    formatted = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+    return redact_secrets_in_text(formatted, *secrets)

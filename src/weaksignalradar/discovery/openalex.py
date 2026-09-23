@@ -12,8 +12,8 @@ verification is explicitly PRECHECK/TEST work, not a DEV self-PASS.
 
 Security (SEC-001): an API key, if configured, is only ever sent as an
 ``Authorization`` header, never as a URL query parameter, and is never
-included in any error message, log line, or snapshot. See
-``discovery.security`` for the redaction helpers used throughout.
+included in any error message, log line, exception cause chain, or
+snapshot. See ``discovery.security`` for the redaction helpers.
 """
 
 from __future__ import annotations
@@ -26,20 +26,25 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlsplit
+from urllib.parse import urljoin, urlsplit
 
 import httpx
 
-from ..provenance.snapshot_store import SnapshotStore
+from ..provenance.snapshot_store import SnapshotResult, SnapshotStore
 from .contracts import CoverageStatus, SearchError, SourceDocument, SourceSearchResult
 from .errors import DisallowedOriginError, DiscoveryFetchError
-from .security import SENSITIVE_QUERY_PARAM_NAMES, sanitize_exception_message
+from .security import (
+    SENSITIVE_QUERY_PARAM_NAMES,
+    redact_secrets_in_bytes,
+    sanitize_exception_message,
+)
 
 # HTTPS-origin allowlist (stage_a_contract.json#security.external_requests).
 # Only hosts listed here may be contacted by this adapter.
 ALLOWED_ORIGINS: frozenset[str] = frozenset({"api.openalex.org"})
 
 _RETRYABLE_STATUS_CODES = frozenset({429, 503})
+_REDIRECT_STATUS_CODES = frozenset({301, 302, 303, 307, 308})
 _MAX_BACKOFF_SECONDS = 2.0
 
 
@@ -69,7 +74,9 @@ class OpenAlexAdapter:
                 f"Allowed origins: {sorted(ALLOWED_ORIGINS)}"
             )
         if self.http_client is None:
-            self.http_client = httpx.Client(timeout=self.timeout_seconds)
+            # Never auto-follow redirects: a Location off the allowlist must
+            # not be contacted, and 3xx must become SEARCH_ERROR, not success.
+            self.http_client = httpx.Client(timeout=self.timeout_seconds, follow_redirects=False)
         self._snapshot_store = SnapshotStore(base_dir=Path(self.snapshot_dir))
 
     # -- public contract ---------------------------------------------------
@@ -84,7 +91,7 @@ class OpenAlexAdapter:
         *,
         run_id: str,
     ) -> SourceSearchResult:
-        del scope, as_of  # accepted per contract signature; not used by this minimal adapter yet
+        del scope, as_of  # accepted per contract signature; not used yet
         request_params: dict[str, Any] = {
             "search": query,
             "per-page": (params or {}).get("per_page", 25),
@@ -95,25 +102,55 @@ class OpenAlexAdapter:
 
         response, error = self._request_with_retries(f"{self.base_url}/works", request_params)
         if error is not None:
-            return SourceSearchResult(
-                run_id=run_id,
-                documents=[],
-                next_cursor=None,
-                coverage=CoverageStatus.SEARCH_ERROR,
-                error=error,
-            )
+            return self._search_error_result(run_id, error)
 
-        return self._build_success_result(run_id, response, request_params)
+        assert response is not None
+        try:
+            return self._build_success_result(run_id, response, request_params)
+        except json.JSONDecodeError as exc:
+            return self._search_error_result(
+                run_id,
+                self._make_error(
+                    "INVALID_JSON",
+                    attempts=1,
+                    retryable=False,
+                    http_status=response.status_code,
+                    exc=exc,
+                ),
+            )
 
     def fetch(self, document_id: str, *, run_id: str) -> SourceDocument:
         response, error = self._request_with_retries(f"{self.base_url}/works/{document_id}", {})
         if error is not None:
             raise DiscoveryFetchError(error)
 
+        assert response is not None
         retrieved_at = datetime.now(UTC)
-        snapshot = self._snapshot_store.save(response.content, prefix=f"openalex_fetch_{run_id}")
-        item = response.json()
-        return self._parse_document(item, run_id, retrieved_at, {}, snapshot)
+        try:
+            snapshot, payload = self._snapshot_and_parse(
+                response, prefix=f"openalex_fetch_{run_id}"
+            )
+        except json.JSONDecodeError as exc:
+            raise DiscoveryFetchError(
+                self._make_error(
+                    "INVALID_JSON",
+                    attempts=1,
+                    retryable=False,
+                    http_status=response.status_code,
+                    exc=exc,
+                )
+            ) from None
+
+        if not isinstance(payload, dict):
+            raise DiscoveryFetchError(
+                self._make_error(
+                    "INVALID_JSON",
+                    attempts=1,
+                    retryable=False,
+                    http_status=response.status_code,
+                )
+            )
+        return self._parse_document(payload, run_id, retrieved_at, {}, snapshot)
 
     # -- internals ----------------------------------------------------------
 
@@ -133,12 +170,14 @@ class OpenAlexAdapter:
     def _make_error(
         self,
         error_code: str,
-        attempt: int,
+        attempt: int | None = None,
         *,
+        attempts: int | None = None,
         retryable: bool,
         http_status: int | None = None,
         exc: BaseException | None = None,
     ) -> SearchError:
+        resolved_attempts = attempts if attempts is not None else (attempt or 1)
         if exc is not None:
             message = sanitize_exception_message(exc, *self._redacted_secrets())
         elif http_status is not None:
@@ -153,14 +192,45 @@ class OpenAlexAdapter:
             message=message,
             http_status=http_status,
             retryable=retryable,
-            attempts=attempt,
+            attempts=resolved_attempts,
+        )
+
+    @staticmethod
+    def _search_error_result(run_id: str, error: SearchError) -> SourceSearchResult:
+        return SourceSearchResult(
+            run_id=run_id,
+            documents=[],
+            next_cursor=None,
+            coverage=CoverageStatus.SEARCH_ERROR,
+            error=error,
+        )
+
+    def _is_allowlisted_location(self, location: str) -> bool:
+        absolute = urljoin(self.base_url.rstrip("/") + "/", location)
+        parts = urlsplit(absolute)
+        return parts.scheme == "https" and parts.hostname in ALLOWED_ORIGINS
+
+    def _redirect_error(self, response: httpx.Response, attempt: int) -> SearchError:
+        location = response.headers.get("Location")
+        if location and not self._is_allowlisted_location(location):
+            return self._make_error(
+                "REDIRECT_DISALLOWED_ORIGIN",
+                attempt,
+                retryable=False,
+                http_status=response.status_code,
+            )
+        return self._make_error(
+            f"HTTP_{response.status_code}",
+            attempt,
+            retryable=False,
+            http_status=response.status_code,
         )
 
     def _request_with_retries(
         self, url: str, request_params: dict[str, Any]
     ) -> tuple[httpx.Response | None, SearchError | None]:
         """bounded retry only; 403 auth error, 429/503 bounded backoff;
-        terminal error SEARCH_ERROR, never a fixture fallback
+        3xx never followed; terminal error SEARCH_ERROR, never fixture fallback
         (stage_a_contract.json#search_interface.error_policy).
         """
         attempt = 0
@@ -169,8 +239,13 @@ class OpenAlexAdapter:
         while attempt <= self.max_retries:
             attempt += 1
             try:
+                # follow_redirects=False on every call so a caller-supplied
+                # Client cannot silently hop to a non-allowlisted host.
                 response = self.http_client.get(
-                    url, params=request_params, headers=self._build_headers()
+                    url,
+                    params=request_params,
+                    headers=self._build_headers(),
+                    follow_redirects=False,
                 )
             except httpx.TimeoutException as exc:
                 last_error = self._make_error("TIMEOUT", attempt, retryable=True, exc=exc)
@@ -185,15 +260,15 @@ class OpenAlexAdapter:
                     continue
                 return None, last_error
             except httpx.HTTPError as exc:
-                # Non-retryable client-side transport error.
                 last_error = self._make_error(
                     "HTTP_CLIENT_ERROR", attempt, retryable=False, exc=exc
                 )
                 return None, last_error
 
+            if response.status_code in _REDIRECT_STATUS_CODES:
+                return None, self._redirect_error(response, attempt)
+
             if response.status_code == 403:
-                # Auth failure: never retried (a bad/fake key will not
-                # start working on a subsequent attempt).
                 return None, self._make_error("HTTP_403", attempt, retryable=False, http_status=403)
 
             if response.status_code in _RETRYABLE_STATUS_CODES:
@@ -216,22 +291,46 @@ class OpenAlexAdapter:
                     http_status=response.status_code,
                 )
 
+            if response.status_code < 200 or response.status_code >= 300:
+                # Any non-2xx that slipped past (including other 3xx) is error.
+                return None, self._make_error(
+                    f"HTTP_{response.status_code}",
+                    attempt,
+                    retryable=False,
+                    http_status=response.status_code,
+                )
+
             return response, None
 
         return None, last_error
+
+    def _snapshot_and_parse(
+        self, response: httpx.Response, *, prefix: str
+    ) -> tuple[SnapshotResult, Any]:
+        """Redact secrets, persist bytes, hash those bytes, then parse JSON.
+
+        content_hash on SourceDocument must equal sha256 of the saved
+        snapshot bytes (stage_a_contract.json#SourceDocument.notes).
+        """
+        safe_bytes = redact_secrets_in_bytes(response.content, *self._redacted_secrets())
+        snapshot = self._snapshot_store.save(safe_bytes, prefix=prefix)
+        payload = json.loads(safe_bytes)
+        return snapshot, payload
 
     def _build_success_result(
         self, run_id: str, response: httpx.Response, request_params: dict[str, Any]
     ) -> SourceSearchResult:
         retrieved_at = datetime.now(UTC)
-        snapshot = self._snapshot_store.save(response.content, prefix=f"openalex_search_{run_id}")
-        payload = response.json()
+        snapshot, payload = self._snapshot_and_parse(response, prefix=f"openalex_search_{run_id}")
+        if not isinstance(payload, dict):
+            raise json.JSONDecodeError("payload is not an object", "", 0)
         results = payload.get("results", [])
         next_cursor = (payload.get("meta") or {}).get("next_cursor")
 
         documents = [
             self._parse_document(item, run_id, retrieved_at, request_params, snapshot)
             for item in results
+            if isinstance(item, dict)
         ]
         return SourceSearchResult(
             run_id=run_id,
@@ -247,7 +346,7 @@ class OpenAlexAdapter:
         run_id: str,
         retrieved_at: datetime,
         request_params: dict[str, Any],
-        snapshot: Any,
+        snapshot: SnapshotResult,
     ) -> SourceDocument:
         openalex_id = item.get("id") or "UNKNOWN"
         doi = item.get("doi")
@@ -258,7 +357,6 @@ class OpenAlexAdapter:
         safe_params = {
             k: v for k, v in request_params.items() if k.lower() not in SENSITIVE_QUERY_PARAM_NAMES
         }
-        per_doc_hash = _hash_json(item)
 
         return SourceDocument(
             source_id=f"openalex:{openalex_id}",
@@ -267,7 +365,8 @@ class OpenAlexAdapter:
             title=title,
             retrieved_at=retrieved_at,
             request_params=safe_params,
-            content_hash=per_doc_hash,
+            # Contract: hash snapshot bytes (not the per-item JSON).
+            content_hash=snapshot.content_hash,
             snapshot_pointer=snapshot.path,
             source_type="scholarly_work",
             coverage=CoverageStatus.SEARCHED_OK,
@@ -275,10 +374,3 @@ class OpenAlexAdapter:
             published_at=published_at,
             primary_origin_id=openalex_id,
         )
-
-
-def _hash_json(value: dict[str, Any]) -> str:
-    import hashlib
-
-    canonical = json.dumps(value, sort_keys=True, default=str).encode("utf-8")
-    return hashlib.sha256(canonical).hexdigest()
