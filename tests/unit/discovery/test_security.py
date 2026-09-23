@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import json
 import traceback
 
 from weaksignalradar.discovery.security import (
+    REDACTED,
     format_exception_redacted,
+    prepare_json_snapshot,
     redact_secrets_in_bytes,
+    redact_secrets_in_json,
     redact_secrets_in_text,
     redact_url,
     sanitize_exception_message,
@@ -43,6 +47,16 @@ def test_redact_secrets_in_text_handles_none_and_empty_secrets() -> None:
     assert redact_secrets_in_text(text, None, "") == text
 
 
+def test_free_text_url_regex_does_not_consume_json_delimiters() -> None:
+    """Regression for PRECHECK: \\S+ must not swallow quotes/commas after URLs."""
+    fragment = '{"id":"https://openalex.org/W1","x":1}'
+    # Free-text helper may touch URLs but must not encode " or , into the URL.
+    redacted = redact_secrets_in_text(fragment)
+    assert "%22" not in redacted
+    assert "%2C" not in redacted
+    assert '"https://openalex.org/W1"' in redacted
+
+
 def test_sanitize_exception_message_redacts_secret_from_exception_str() -> None:
     exc = ValueError("failed calling https://api.openalex.org/works?api_key=FAKE-KEY-999")
     message = sanitize_exception_message(exc, "FAKE-KEY-999")
@@ -68,14 +82,62 @@ def test_format_exception_redacted_covers_full_traceback_and_cause() -> None:
             raise RuntimeError("wrapper") from cause
     except RuntimeError as exc:
         raw = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
-        assert secret in raw  # demonstrates the vulnerability without redaction
+        assert secret in raw
         redacted = format_exception_redacted(exc, secret)
         assert secret not in redacted
 
 
-def test_redact_secrets_in_bytes_scrubs_utf8_payload() -> None:
+def test_prepare_json_snapshot_preserves_urls_before_quotes_and_commas() -> None:
+    raw = b'{"id":"https://openalex.org/W1","doi":"https://doi.org/10.1/x","n":1}'
+    safe, payload = prepare_json_snapshot(raw)
+    assert json.loads(safe) == payload
+    assert payload["id"] == "https://openalex.org/W1"
+    assert "%22" not in safe.decode("utf-8")
+    assert "%2C" not in safe.decode("utf-8")
+
+
+def test_prepare_json_snapshot_nested_unicode_and_escapes() -> None:
+    payload = {
+        "title": 'Кавычки "внутри" и emoji 🧪',
+        "nested": {"note": "line\\nnext", "list": ["α", {"u": "https://openalex.org/W9"}]},
+    }
+    raw = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    safe, redacted = prepare_json_snapshot(raw)
+    roundtrip = json.loads(safe)
+    assert roundtrip["title"] == payload["title"]
+    assert roundtrip["nested"]["list"][1]["u"] == "https://openalex.org/W9"
+    assert redacted == roundtrip
+
+
+def test_prepare_json_snapshot_redacts_secret_in_field_and_url() -> None:
+    secret = "FAKE-KEY-JSON-STRUCT"
+    payload = {
+        "note": f"token {secret}",
+        "api_key": secret,
+        "url": f"https://api.openalex.org/works?api_key={secret}&q=1",
+    }
+    raw = json.dumps(payload).encode("utf-8")
+    safe, redacted = prepare_json_snapshot(raw, secret)
+    text = safe.decode("utf-8")
+    assert secret not in text
+    assert redacted["api_key"] == REDACTED
+    assert secret not in redacted["note"]
+    assert secret not in redacted["url"]
+    assert "api_key=" in redacted["url"]
+
+
+def test_redact_secrets_in_json_sensitive_key_without_secret_arg() -> None:
+    data = {"token": "whatever", "ok": True}
+    out = redact_secrets_in_json(data)
+    assert out["token"] == REDACTED
+    assert out["ok"] is True
+
+
+def test_redact_secrets_in_bytes_uses_structural_path_for_json() -> None:
     secret = "FAKE-KEY-BYTES"
-    raw = f'{{"echo": "{secret}"}}'.encode()
+    raw = json.dumps({"id": "https://openalex.org/W1", "echo": secret}).encode()
     scrubbed = redact_secrets_in_bytes(raw, secret)
     assert secret.encode() not in scrubbed
-    assert b"[REDACTED]" in scrubbed
+    parsed = json.loads(scrubbed)
+    assert parsed["id"] == "https://openalex.org/W1"
+    assert secret not in parsed["echo"]

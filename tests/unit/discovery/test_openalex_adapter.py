@@ -370,3 +370,128 @@ def test_fetch_redirect_disallowed_origin(tmp_path: Path) -> None:
 
     assert exc_info.value.error.error_code == "REDIRECT_DISALLOWED_ORIGIN"
     _assert_no_secret(str(exc_info.value))
+
+
+def test_search_openalex_like_json_with_urls_is_searched_ok(tmp_path: Path) -> None:
+    """A/B/C: valid multi-result OpenAlex JSON; URLs end before quotes/commas."""
+    # Explicit compact body matching PRECHECK shape (URL immediately before " and ,).
+    raw = (
+        b'{"results":[{"id":"https://openalex.org/W100","doi":"https://doi.org/10.1000/alpha"'
+        b',"title":"Environmental sensing survey","publication_date":"2019-05-01"'
+        b',"language":"en","primary_location":{"landing_page_url":'
+        b'"https://example.org/paper/W100"}},{"id":"https://openalex.org/W200"'
+        b',"doi":"https://doi.org/10.1000/beta","title":"Monitoring methods review"'
+        b',"publication_date":"2020-11-11","language":"en"}],'
+        b'"meta":{"count":2,"next_cursor":"cursor-abc"}}'
+    )
+    assert b"%22" not in raw
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        del request
+        return httpx.Response(200, content=raw, headers={"content-type": "application/json"})
+
+    adapter = _adapter(tmp_path, handler, max_retries=0)
+    result = adapter.search(
+        "sensing technologies", {}, None, {"per_page": 5}, None, run_id="run-oa"
+    )
+
+    assert result.coverage == CoverageStatus.SEARCHED_OK
+    assert result.error is None
+    assert len(result.documents) == 2
+    assert result.next_cursor == "cursor-abc"
+    snapshot = Path(result.documents[0].snapshot_pointer).read_bytes()
+    text = snapshot.decode("utf-8")
+    assert "%22" not in text
+    assert "%2C" not in text
+    parsed = json.loads(snapshot)
+    assert parsed["results"][0]["id"] == "https://openalex.org/W100"
+    for doc in result.documents:
+        assert doc.content_hash == hashlib.sha256(snapshot).hexdigest()
+        _assert_no_secret(doc.model_dump_json())
+
+
+def test_search_and_fetch_secret_in_text_and_url_fields(tmp_path: Path) -> None:
+    """D: artificial key in text field and inside URL — absent from all saved data."""
+    search_payload = {
+        "results": [
+            {
+                "id": "https://openalex.org/W300",
+                "title": f"note {FAKE_KEY}",
+                "abstract": f"https://api.openalex.org/works?api_key={FAKE_KEY}&q=x",
+            }
+        ],
+        "meta": {},
+    }
+    fetch_item = {
+        "id": "https://openalex.org/W300",
+        "title": "Fetched",
+        "api_key": FAKE_KEY,
+        "url": f"https://example.org/x?api_key={FAKE_KEY}",
+    }
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path.endswith("/W300"):
+            return httpx.Response(200, json=fetch_item)
+        return httpx.Response(200, json=search_payload)
+
+    adapter = _adapter(tmp_path, handler, max_retries=0)
+    search = adapter.search("q", {}, None, {}, None, run_id="run-sec-d")
+    assert search.coverage == CoverageStatus.SEARCHED_OK
+    search_snap = Path(search.documents[0].snapshot_pointer).read_bytes()
+    _assert_no_secret(search_snap.decode("utf-8"))
+    assert search.documents[0].content_hash == hashlib.sha256(search_snap).hexdigest()
+
+    doc = adapter.fetch("W300", run_id="run-sec-d-fetch")
+    fetch_snap = Path(doc.snapshot_pointer).read_bytes()
+    _assert_no_secret(fetch_snap.decode("utf-8"))
+    assert doc.content_hash == hashlib.sha256(fetch_snap).hexdigest()
+    _assert_no_secret(doc.model_dump_json())
+
+
+def test_search_nested_unicode_json_roundtrip(tmp_path: Path) -> None:
+    """E: nested JSON with Unicode, quotes, and escapes survives redaction."""
+    payload = {
+        "results": [
+            {
+                "id": "https://openalex.org/W400",
+                "title": 'Сигнал "слабый" — テスト',
+                "display_name": "line1\\nline2",
+                "extra": {"note": "café", "urls": ["https://openalex.org/W400"]},
+            }
+        ],
+        "meta": {"next_cursor": None},
+    }
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        del request
+        return httpx.Response(
+            200,
+            content=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
+            headers={"content-type": "application/json"},
+        )
+
+    adapter = _adapter(tmp_path, handler, max_retries=0)
+    result = adapter.search("q", {}, None, {}, None, run_id="run-unicode")
+    assert result.coverage == CoverageStatus.SEARCHED_OK
+    assert result.documents[0].title == 'Сигнал "слабый" — テスト'
+    snap = Path(result.documents[0].snapshot_pointer).read_bytes()
+    assert json.loads(snap)["results"][0]["extra"]["note"] == "café"
+    assert result.documents[0].content_hash == hashlib.sha256(snap).hexdigest()
+
+
+def test_invalid_json_does_not_write_snapshot(tmp_path: Path) -> None:
+    """Failed parse must not leave a successful-looking snapshot artifact."""
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        del request
+        return httpx.Response(200, content=b"not-json{{{")
+
+    adapter = _adapter(tmp_path, handler, max_retries=0)
+    snap_dir = tmp_path / "snapshots"
+    before = set(snap_dir.glob("*")) if snap_dir.exists() else set()
+    result = adapter.search("q", {}, None, {}, None, run_id="run-no-snap")
+    after = set(snap_dir.glob("*")) if snap_dir.exists() else set()
+    assert result.coverage == CoverageStatus.SEARCH_ERROR
+    assert result.error is not None
+    assert result.error.error_code == "INVALID_JSON"
+    assert after == before

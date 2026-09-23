@@ -35,7 +35,7 @@ from .contracts import CoverageStatus, SearchError, SourceDocument, SourceSearch
 from .errors import DisallowedOriginError, DiscoveryFetchError
 from .security import (
     SENSITIVE_QUERY_PARAM_NAMES,
-    redact_secrets_in_bytes,
+    prepare_json_snapshot,
     sanitize_exception_message,
 )
 
@@ -107,7 +107,7 @@ class OpenAlexAdapter:
         assert response is not None
         try:
             return self._build_success_result(run_id, response, request_params)
-        except json.JSONDecodeError as exc:
+        except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as exc:
             return self._search_error_result(
                 run_id,
                 self._make_error(
@@ -130,7 +130,7 @@ class OpenAlexAdapter:
             snapshot, payload = self._snapshot_and_parse(
                 response, prefix=f"openalex_fetch_{run_id}"
             )
-        except json.JSONDecodeError as exc:
+        except (json.JSONDecodeError, UnicodeDecodeError, ValueError) as exc:
             raise DiscoveryFetchError(
                 self._make_error(
                     "INVALID_JSON",
@@ -307,14 +307,16 @@ class OpenAlexAdapter:
     def _snapshot_and_parse(
         self, response: httpx.Response, *, prefix: str
     ) -> tuple[SnapshotResult, Any]:
-        """Redact secrets, persist bytes, hash those bytes, then parse JSON.
+        """Parse + structurally redact JSON, then persist safe bytes.
 
+        Raw response body is never written to disk before SEC-001 scrubbing.
         content_hash on SourceDocument must equal sha256 of the saved
         snapshot bytes (stage_a_contract.json#SourceDocument.notes).
+        Raises ``json.JSONDecodeError`` / ``UnicodeDecodeError`` without
+        creating a snapshot (failed PRECHECK capture is not SEARCHED_OK).
         """
-        safe_bytes = redact_secrets_in_bytes(response.content, *self._redacted_secrets())
+        safe_bytes, payload = prepare_json_snapshot(response.content, *self._redacted_secrets())
         snapshot = self._snapshot_store.save(safe_bytes, prefix=prefix)
-        payload = json.loads(safe_bytes)
         return snapshot, payload
 
     def _build_success_result(
