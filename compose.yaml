@@ -1,24 +1,43 @@
-# Stage A (A-02) minimal scaffold: PostgreSQL only.
-# No backend/app service yet — that is explicit A-04 scope.
-# No secrets here: all values come from environment variables (.env, git-ignored).
-# Containers are not started and images are not pulled by creating this file;
-# `docker compose config` only parses/validates and resolves variable interpolation.
+# Stage A local stack: PostgreSQL + minimal FastAPI backend (A-04).
+# Local loopback binds only — not a public deployment.
+# Secrets come from environment variables (.env is git-ignored).
 
 services:
   db:
     image: "postgres:${POSTGRES_VERSION:-16}"
     restart: unless-stopped
     environment:
-      # ":?message" makes config resolution fail with an explicit error when
-      # the variable is unset OR empty, instead of silently defaulting to "".
       POSTGRES_USER: "${POSTGRES_USER:?POSTGRES_USER is required and must not be empty (set it in .env, not in this file)}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required and must not be empty (set it in .env, not in this file)}"
       POSTGRES_DB: "${POSTGRES_DB:?POSTGRES_DB is required and must not be empty (set it in .env, not in this file)}"
     ports:
-      # Bind to loopback only; do not expose PostgreSQL on all interfaces.
       - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB",
+        ]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "${DATABASE_URL:?DATABASE_URL is required and must not be empty (set it in .env, not in this file)}"
+      LOG_LEVEL: "${LOG_LEVEL:-INFO}"
+    ports:
+      # Loopback only — local Stage A stand, not published to the internet.
+      - "127.0.0.1:${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   db_data: {}
