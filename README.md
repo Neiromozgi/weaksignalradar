@@ -4,7 +4,7 @@
 
 Branch: `snnit-fasttrack`. Release finalization (UI v1.0.3 / observability).
 
-Persistent local events: `logs/snnit-radar.jsonl` (Docker volume `logs_data:/app/logs`). Use `.\manage.ps1 logs` / `diagnostics`.
+Persistent local events: `logs/snnit-radar.jsonl` (Docker volume `logs_data:/app/logs`). Use `manage.cmd logs` / `diagnostics` (Windows CMD; no PowerShell execution policy required).
 
 ## Status (factual)
 
@@ -18,18 +18,24 @@ Persistent local events: `logs/snnit-radar.jsonl` (Docker volume `logs_data:/app
 | `/api/v1` + UI P0 surfaces | **IMPLEMENTED** (real API; CACHE labelled) |
 | OpenAI LLM LIVE | **IMPLEMENTED** (local `OPENAI_API_KEY` in `.env` only) |
 | Bootstrap | **ON_DEMAND / PARTIAL** (not a blocker) |
-| Full `manage.ps1` admin (handoff §26 superset) | **ROADMAP** |
+| Full admin tooling (handoff §26 superset) | **ROADMAP** |
 
-## Quick start
+## Quick start (Windows — CMD, recommended)
 
-```powershell
+```cmd
 copy .env.example .env
-# POSTGRES_*, SOURCE_API_KEY, OPENAI_API_KEY (never commit .env)
-
-pip install -e ".[dev]"
-.\run.ps1 -Build
-.\manage.ps1 status
+run.cmd -Build
+manage.cmd status
+manage.cmd diagnostics
 ```
+
+Open http://127.0.0.1:8000/
+
+`.env.example` ships **intentional local demo PostgreSQL defaults** (`snnit` / `snnit_local_dev` / `snnit_radar` on localhost). They are not external-service secrets. **Do not commit `.env`.** Leave `OPENAI_API_KEY` and `SOURCE_API_KEY` empty for CACHE/SNAPSHOT; set them only in your local `.env` for LIVE/LLM.
+
+No `Set-ExecutionPolicy`, no `ExecutionPolicy Bypass`, and no administrator rights are required for this path.
+
+Optional developer path: `run.ps1` / `manage.ps1` (PowerShell). Optional host Python tests: `pip install -e ".[dev]"` then `pytest`.
 
 Compose backend uses `@db:5432` for `DATABASE_URL`, mounts `snapshot_data` at `/app/snapshots`, and passes through source/LLM env vars from `.env` (names only in `.env.example`).
 
@@ -82,12 +88,19 @@ Primary path: **HOME → RUNNING → TOP-15 → Technology Card** (human-readabl
 
 ## Operator CLI
 
-```powershell
-.\manage.ps1 status | sources | llm-status | snapshots | logs | diagnostics | help
-.\manage.ps1 logs -Tail 50
+```cmd
+manage.cmd status
+manage.cmd sources
+manage.cmd llm-status
+manage.cmd snapshots
+manage.cmd logs 50
+manage.cmd diagnostics
+manage.cmd help
 ```
 
-Expert/jury clean machine: clone → `.env.example` → `.env` → `.\run.ps1 -Build` → http://127.0.0.1:8000/ (CACHE + `ft_bench_v1` needs no personal API keys). Shutdown: `docker compose down` (avoid `down -v` unless you intend to wipe DB/snapshots/logs volumes).
+Optional: `manage.ps1` with the same subcommands.
+
+Expert/jury clean machine: clone → `copy .env.example .env` → `run.cmd -Build` → http://127.0.0.1:8000/ (CACHE + `ft_bench_v1` needs no personal API keys). Shutdown: `docker compose down` (avoid `down -v` unless you intend to wipe DB/snapshots/logs volumes).
 
 ## Tests
 

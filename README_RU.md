@@ -25,28 +25,33 @@
 - Интернет: для `docker compose build`, первой загрузки весов E5, LIVE-источников (по необходимости)
 - CACHE/SNAPSHOT **не требуют** персональных API-ключей
 
-## Быстрый запуск (Docker — основной путь)
+## Быстрый запуск (Windows CMD — основной путь)
 
-```powershell
+```cmd
 git clone <repository-url>
 cd weaksignalradar
-git checkout snnit-fasttrack   # или release tag
-Copy-Item .env.example .env
-# Заполните POSTGRES_* (обязательно). SOURCE_API_KEY / OPENAI_API_KEY — для LIVE/LLM.
-.\run.ps1 -Build
+git checkout snnit-fasttrack
+copy .env.example .env
+run.cmd -Build
 ```
 
 Открыть: http://127.0.0.1:8000/
 
-```powershell
-.\manage.ps1 status
-.\manage.ps1 sources
-.\manage.ps1 llm-status
-.\manage.ps1 snapshots
-.\manage.ps1 logs -Tail 50
-.\manage.ps1 diagnostics
-.\manage.ps1 help
+В `.env.example` уже заданы **локальные demo-значения PostgreSQL** (`snnit` / `snnit_local_dev` / `snnit_radar`). Это не внешние секреты. Файл `.env` не коммитить. `OPENAI_API_KEY` и `SOURCE_API_KEY` оставьте пустыми для CACHE/SNAPSHOT; для LIVE/LLM задайте только в локальном `.env`.
+
+Путь **не требует** `Set-ExecutionPolicy`, `ExecutionPolicy Bypass` или прав администратора.
+
+```cmd
+manage.cmd status
+manage.cmd sources
+manage.cmd llm-status
+manage.cmd snapshots
+manage.cmd logs 50
+manage.cmd diagnostics
+manage.cmd help
 ```
+
+Опционально для разработчиков: `run.ps1` / `manage.ps1`.
 
 ## CACHE / SNAPSHOT
 
@@ -74,8 +79,8 @@ Score: `0.30A + 0.20B + 0.25C + 0.15D + 0.10E`.
 ## Логи и диагностика
 
 - Файл: `logs/snnit-radar.jsonl` (volume `logs_data`, переживает restart контейнера)
-- `.\manage.ps1 logs`
-- `.\manage.ps1 diagnostics`
+- `manage.cmd logs`
+- `manage.cmd diagnostics`
 - API: `/api/v1/diagnostics`, `/api/v1/observability/events`
 
 Secrets **не** пишутся в лог.
@@ -103,9 +108,9 @@ docker compose down
 ## Эксперт / жюри (clean machine)
 
 1. Fresh clone + новый `.env` из `.env.example`
-2. `.\run.ps1 -Build`
+2. `run.cmd -Build`
 3. UI: режим CACHE + `ft_bench_v1` для воспроизводимой проверки
-4. `.\manage.ps1 diagnostics`
+4. `manage.cmd diagnostics`
 
 Не требуются: Cursor, локальный venv разработчика, существующий PostgreSQL хоста.
 
@@ -117,10 +122,10 @@ docker compose down
 | PostgreSQL persistence | **IMPLEMENTED** |
 | Observability jsonl | **IMPLEMENTED** |
 | Bootstrap ON_DEMAND | **PARTIAL** |
-| Full manage.ps1 admin (handoff §26) | **ROADMAP** |
+| Full admin tooling (handoff §26) | **ROADMAP** |
 
 ## Troubleshooting
 
-- `503 PERSISTENCE_UNAVAILABLE` — PostgreSQL недоступен; `manage.ps1 status`
+- `503 PERSISTENCE_UNAVAILABLE` — PostgreSQL недоступен; `manage.cmd status`
 - Embedding UNAVAILABLE — проверьте образ backend и первую загрузку модели
 - LIVE partial — см. diagnostics и Technology Card «Ограничения»

@@ -12,6 +12,7 @@ COPY src ./src
 COPY alembic.ini ./
 COPY alembic ./alembic
 COPY frontend ./frontend
+COPY scripts ./scripts
 COPY scripts/docker_entrypoint.py /docker_entrypoint.py
 
 RUN pip install --upgrade pip \
