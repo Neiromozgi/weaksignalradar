@@ -1,0 +1,10 @@
+score_profiles:
+  ABCDE_v1:
+    active_features: [A, B, C, D, E]
+    weights:
+      A: 0.30
+      B: 0.20
+      C: 0.25
+      D: 0.15
+      E: 0.10
+    comparable_with: [ABCDE_v1]

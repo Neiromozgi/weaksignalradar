@@ -1,0 +1,52 @@
+{
+  "candidate_id": "tech_001",
+  "canonical_name": "...",
+  "state": "RANKED",
+  "score_profile_id": "ABCDE_v1",
+  "score": 81.0,
+  "rank": 1,
+  "features": {
+    "A": {
+      "raw": 2.9,
+      "percentile": 92,
+      "weight": 0.3,
+      "contribution": 27.6
+    },
+    "B": {
+      "raw": 1.1,
+      "percentile": 95,
+      "weight": 0.2,
+      "contribution": 19.0
+    },
+    "C": {
+      "raw": 41.0,
+      "percentile": 88,
+      "weight": 0.25,
+      "contribution": 22.0
+    },
+    "D": {
+      "raw": 62.0,
+      "percentile": 70,
+      "weight": 0.15,
+      "contribution": 10.5
+    },
+    "E": {
+      "raw": null,
+      "percentile": 18,
+      "weight": 0.1,
+      "contribution": 1.8
+    }
+  },
+  "fwci_diagnostic": 3.1,
+  "bootstrap": {
+    "status": "NOT_REQUESTED",
+    "interval": null
+  },
+  "source_documents": [
+    {
+      "source_document_id": "doc_123",
+      "original_availability_status": "ABSTRACT_AVAILABLE",
+      "canonical_url": "https://..."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+sources:
+  openalex:
+    enabled: true
+    role: REQUIRED_REFERENCE_SOURCE
+    max_calls_per_run: 15
+  cordis:
+    enabled: true
+    role: REQUIRED_ATTEMPT_FAIL_SOFT
+    max_calls_per_run: 8
+  epo_lod:
+    enabled: true
+    role: REQUIRED_ATTEMPT_FAIL_SOFT
+    max_calls_per_run: 12

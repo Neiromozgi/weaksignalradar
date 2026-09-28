@@ -1,0 +1,14 @@
+{
+  "source_document_id": "doc_123",
+  "source_id": "openalex",
+  "source_type": "publication",
+  "stable_external_id": "https://openalex.org/W...",
+  "doi": "10....",
+  "title": "...",
+  "year": 2025,
+  "canonical_url": "https://...",
+  "original_availability_status": "ABSTRACT_AVAILABLE",
+  "original_stored": false,
+  "snapshot_id": "snap_...",
+  "coverage_state": "FOUND"
+}
