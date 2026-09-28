@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "snapshot_id": "ft_bench_v1",
+    "source": "openalex",
+    "purpose": "FastTrack bounded replay corpus (synthetic metadata shapes only)"
+  },
+  "results": [
+    {
+      "id": "https://openalex.org/W100000001",
+      "title": "Quantum photonic integrated circuits for low power computing",
+      "publication_year": 2021,
+      "abstract_inverted_index": {
+        "Quantum": [0],
+        "photonic": [1],
+        "circuits": [2],
+        "enable": [3],
+        "novel": [4],
+        "architectures": [5]
+      },
+      "ids": {"openalex": "https://openalex.org/W100000001", "doi": "10.1000/qpic.1"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-1"},
+      "authorships": [{"institutions": [{"display_name": "Lab Alpha"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000002",
+      "title": "Advanced quantum photonic waveguide mesh networks",
+      "publication_year": 2022,
+      "abstract_inverted_index": {
+        "Waveguide": [0],
+        "mesh": [1],
+        "networks": [2],
+        "for": [3],
+        "quantum": [4],
+        "photonic": [5]
+      },
+      "ids": {"openalex": "https://openalex.org/W100000002"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-2"},
+      "authorships": [{"institutions": [{"display_name": "Lab Beta"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000003",
+      "title": "Solid state battery electrolyte interface engineering",
+      "publication_year": 2019,
+      "abstract_inverted_index": {
+        "Solid": [0],
+        "state": [1],
+        "battery": [2],
+        "electrolyte": [3]
+      },
+      "ids": {"openalex": "https://openalex.org/W100000003"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-1"},
+      "authorships": [{"institutions": [{"display_name": "Energy Institute"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000004",
+      "title": "Solid state battery cathode materials stability study",
+      "publication_year": 2020,
+      "ids": {"openalex": "https://openalex.org/W100000004"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-2"},
+      "authorships": [{"institutions": [{"display_name": "Energy Institute"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000005",
+      "title": "Domain filler publication on unrelated mainstream topic",
+      "publication_year": 2023,
+      "ids": {"openalex": "https://openalex.org/W100000005"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/filler"},
+      "authorships": [{"institutions": [{"display_name": "General University"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000006",
+      "title": "Quantum photonic sources for scalable computation",
+      "publication_year": 2023,
+      "ids": {"openalex": "https://openalex.org/W100000006"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-3"},
+      "authorships": [{"institutions": [{"display_name": "Lab Gamma"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000007",
+      "title": "Quantum photonic error correction primitives",
+      "publication_year": 2024,
+      "ids": {"openalex": "https://openalex.org/W100000007"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-4"},
+      "authorships": [{"institutions": [{"display_name": "Lab Delta"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000008",
+      "title": "Solid state battery manufacturing scale pathways",
+      "publication_year": 2021,
+      "ids": {"openalex": "https://openalex.org/W100000008"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-3"},
+      "authorships": [{"institutions": [{"display_name": "Energy Corp"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000009",
+      "title": "Solid state battery thermal management systems",
+      "publication_year": 2022,
+      "ids": {"openalex": "https://openalex.org/W100000009"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-4"},
+      "authorships": [{"institutions": [{"display_name": "Thermal Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000010",
+      "title": "Solid state battery pack integration for vehicles",
+      "publication_year": 2023,
+      "ids": {"openalex": "https://openalex.org/W100000010"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-5"},
+      "authorships": [{"institutions": [{"display_name": "Auto Research"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000011",
+      "title": "Solid state battery recycling and lifecycle",
+      "publication_year": 2024,
+      "ids": {"openalex": "https://openalex.org/W100000011"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-6"},
+      "authorships": [{"institutions": [{"display_name": "Circular Energy"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000012",
+      "title": "Quantum photonic interconnect for datacenter fabrics",
+      "publication_year": 2024,
+      "ids": {"openalex": "https://openalex.org/W100000012"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-5"},
+      "authorships": [{"institutions": [{"display_name": "Network Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000013",
+      "title": "Quantum photonic modulator design for cryogenic systems",
+      "publication_year": 2020,
+      "ids": {"openalex": "https://openalex.org/W100000013"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-6"},
+      "authorships": [{"institutions": [{"display_name": "Cryo Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000014",
+      "title": "Quantum photonic detector arrays with high efficiency",
+      "publication_year": 2021,
+      "ids": {"openalex": "https://openalex.org/W100000014"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-7"},
+      "authorships": [{"institutions": [{"display_name": "Detector Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000015",
+      "title": "Quantum photonic packaging for heterogeneous integration",
+      "publication_year": 2022,
+      "ids": {"openalex": "https://openalex.org/W100000015"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-8"},
+      "authorships": [{"institutions": [{"display_name": "Packaging Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000016",
+      "title": "Quantum photonic simulation frameworks for design space",
+      "publication_year": 2023,
+      "ids": {"openalex": "https://openalex.org/W100000016"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/qpic-9"},
+      "authorships": [{"institutions": [{"display_name": "Simulation Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000017",
+      "title": "Solid state battery dendrite suppression mechanisms",
+      "publication_year": 2018,
+      "ids": {"openalex": "https://openalex.org/W100000017"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-7"},
+      "authorships": [{"institutions": [{"display_name": "Materials Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000018",
+      "title": "Solid state battery interface characterization methods",
+      "publication_year": 2019,
+      "ids": {"openalex": "https://openalex.org/W100000018"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-8"},
+      "authorships": [{"institutions": [{"display_name": "Interface Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000019",
+      "title": "Solid state battery prototype cell performance report",
+      "publication_year": 2020,
+      "ids": {"openalex": "https://openalex.org/W100000019"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-9"},
+      "authorships": [{"institutions": [{"display_name": "Prototype Lab"}]}]
+    },
+    {
+      "id": "https://openalex.org/W100000020",
+      "title": "Solid state battery supply chain readiness assessment",
+      "publication_year": 2021,
+      "ids": {"openalex": "https://openalex.org/W100000020"},
+      "primary_location": {"landing_page_url": "https://example.org/papers/ssb-10"},
+      "authorships": [{"institutions": [{"display_name": "Supply Lab"}]}]
+    }
+  ]
+}

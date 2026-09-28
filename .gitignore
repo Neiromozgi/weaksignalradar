@@ -21,6 +21,7 @@ htmlcov/
 
 # Snapshots / local data (never commit raw source snapshots or secrets)
 snapshots/
+logs/
 data/
 *.sqlite3
 

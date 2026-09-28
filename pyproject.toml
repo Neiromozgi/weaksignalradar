@@ -14,6 +14,7 @@ dependencies = [
   "alembic==1.20.0",
   "jinja2==3.1.6",
   "uvicorn[standard]==0.35.0",
+  "sentence-transformers==3.4.1",
 ]
 
 [project.optional-dependencies]
@@ -29,6 +30,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"weaksignalradar.fasttrack" = ["fixtures/**/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

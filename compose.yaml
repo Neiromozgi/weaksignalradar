@@ -30,8 +30,26 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      DATABASE_URL: "${DATABASE_URL:?DATABASE_URL is required and must not be empty (set it in .env, not in this file)}"
+      # In-network host is always `db`; host-side tools use loopback in .env DATABASE_URL.
+      DATABASE_URL: "postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
       LOG_LEVEL: "${LOG_LEVEL:-INFO}"
+      FRONTEND_DIR: "/app/frontend"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      LLM_PROVIDER: "${LLM_PROVIDER:-openai}"
+      LLM_MODEL: "${LLM_MODEL:-gpt-5.6-terra}"
+      SOURCE_API_KEY: "${SOURCE_API_KEY:-}"
+      SOURCE_BASE_URL: "${SOURCE_BASE_URL:-}"
+      OPENALEX_MAILTO: "${OPENALEX_MAILTO:-}"
+      CORDIS_SPARQL_ENDPOINT: "${CORDIS_SPARQL_ENDPOINT:-}"
+      EPO_SPARQL_ENDPOINT: "${EPO_SPARQL_ENDPOINT:-}"
+      EPO_LIVE_DISABLED: "${EPO_LIVE_DISABLED:-}"
+      # Competition Docker path always uses frozen HF E5 (ignore host test overrides in .env).
+      WSR_EMBEDDING_BACKEND: "auto"
+      SNAPSHOT_DIR: "/app/snapshots"
+      WSR_EVENT_LOG_PATH: "/app/logs/snnit-radar.jsonl"
+    volumes:
+      - snapshot_data:/app/snapshots
+      - logs_data:/app/logs
     ports:
       # Loopback only — local Stage A stand, not published to the internet.
       - "127.0.0.1:${BACKEND_PORT:-8000}:8000"
@@ -41,3 +59,5 @@ services:
 
 volumes:
   db_data: {}
+  snapshot_data: {}
+  logs_data: {}
