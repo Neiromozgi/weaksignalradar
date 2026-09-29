@@ -27,3 +27,11 @@ def ensure_persistence_operational(request: Request) -> Engine:
         request.app.state.run_repository = None
         raise HTTPException(status_code=503, detail="PERSISTENCE_UNAVAILABLE")
     return eng
+
+
+def ensure_postgres_persistence(request: Request) -> Engine:
+    """LIVE corpus refresh requires PostgreSQL (JSONB snapshot registry)."""
+    eng = ensure_persistence_operational(request)
+    if eng.dialect.name != "postgresql":
+        raise HTTPException(status_code=503, detail="PERSISTENCE_UNAVAILABLE")
+    return eng

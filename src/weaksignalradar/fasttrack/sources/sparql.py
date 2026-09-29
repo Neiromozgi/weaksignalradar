@@ -31,8 +31,10 @@ def run_sparql(
         )
     except httpx.TimeoutException:
         return SparqlResult(bindings=[], ok=False, error="timeout")
-    except httpx.HTTPError as exc:
-        return SparqlResult(bindings=[], ok=False, error=type(exc).__name__)
+    except httpx.ConnectError:
+        return SparqlResult(bindings=[], ok=False, error="connect_error")
+    except httpx.HTTPError:
+        return SparqlResult(bindings=[], ok=False, error="http_client_error")
     if resp.status_code >= 400:
         return SparqlResult(bindings=[], ok=False, error=f"http_{resp.status_code}")
     try:

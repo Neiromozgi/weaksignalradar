@@ -41,6 +41,7 @@ from .features import (
     compute_e_percentile_input,
     mann_kendall_q,
 )
+from .llm_diagnostics import LLMDiagnostics
 from .percentiles import inverse_percentiles, midrank_percentiles, percentile_quality
 
 
@@ -162,9 +163,6 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
     state.coverage_summary = coverage
     state.source_runs = source_runs
 
-    cand_dicts, method = discover_candidates(documents, domain_id=state.domain_id)
-    state.provenance["discovery_method"] = method
-
     llm = get_llm_adapter()
     backend: EmbeddingBackend | None
     try:
@@ -173,6 +171,14 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
     except Exception:
         backend = None
         emb_label = "EMBEDDING_UNAVAILABLE"
+
+    cand_dicts, method, cluster_prov = discover_candidates(
+        documents, domain_id=state.domain_id, backend=backend
+    )
+    state.provenance["discovery_method"] = method
+    state.provenance.update(cluster_prov)
+    if cluster_prov.get("discovery_status") == "EMBEDDING_UNAVAILABLE":
+        state.provenance["discovery_status"] = "EMBEDDING_UNAVAILABLE"
     state.provenance["embedding_backend"] = emb_label
     state.provenance["embedding_runtime_status"] = embedding_runtime_status()
     if backend is None:
@@ -190,10 +196,12 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
             component="embedding",
         )
     signatures: list[TechnicalSignature] = []
+    llm_diag = LLMDiagnostics()
 
     candidates: list[CandidateRecord] = []
     doc_by_id = {d.source_document_id: d for d in documents}
     for cd in cand_dicts:
+        llm_diag.begin_candidate()
         evidence = []
         for did in cd["document_ids"]:
             doc = doc_by_id.get(did)
@@ -204,9 +212,11 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
         evidence_hash = hashlib.sha256("\n".join(evidence).encode("utf-8")).hexdigest()
         sig = repo.get_extraction_replay(state.snapshot_id, cd["candidate_id"], evidence_hash)
         if sig is None:
+            llm_diag.begin_provider_call()
             sig = llm.extract_signature(
                 candidate_name=cd["canonical_name"], evidence_texts=evidence
             )
+            llm_diag.finish_provider_call(sig)
             if sig.validation_status == "PASSED":
                 repo.save_extraction(
                     run_id=state.run_id,
@@ -216,6 +226,8 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
                     extraction_payload={"signature": _sig_payload(sig)},
                     provenance={"snapshot_id": state.snapshot_id, "mode": state.data_mode},
                 )
+        else:
+            llm_diag.mark_replay(sig)
         signatures.append(sig)
         yearly = _build_yearly_stats(cd, documents)
         candidates.append(
@@ -246,6 +258,14 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
     _score_and_rank(candidates)
     state.candidates = candidates
     state.registries = _build_registries(candidates)
+    state.provenance["llm_diagnostics"] = llm_diag.as_dict()
+    emit_event(
+        "LLM_EXTRACTION_SUMMARY",
+        run_id=state.run_id,
+        mode=state.data_mode,
+        component="llm",
+        extra=llm_diag.as_dict(),
+    )
 
 
 def _sig_payload(sig: TechnicalSignature) -> dict[str, Any]:
@@ -398,11 +418,20 @@ def _acquire_documents(
                     execution_status=epo.coverage_state.value,
                     external_calls=epo.calls_used,
                     records_received=len(epo.documents),
+                    error=epo.error,
                     started_at=t0,
                     completed_at=t1,
                 ),
             ]
         )
+        if epo.coverage_state == CoverageState.SEARCH_ERROR and epo.error:
+            emit_event(
+                "SOURCE_ERROR",
+                run_id=state.run_id,
+                mode=mode,
+                component="epo_lod",
+                reason_code=epo.error,
+            )
         if oa_result.coverage_state == CoverageState.SEARCH_ERROR:
             coverage["reference_source"] = "REFERENCE_SOURCE_UNAVAILABLE"
         return docs, coverage, source_runs

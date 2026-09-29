@@ -2,12 +2,9 @@
 
 from __future__ import annotations
 
-import hashlib
-import json
 import os
 import time
 from dataclasses import dataclass
-from datetime import UTC, datetime
 from typing import Any
 
 from weaksignalradar.discovery.openalex import OpenAlexAdapter
@@ -16,9 +13,13 @@ from .budget import OPENALEX_HARD_CUTOFF_SEC, OPENALEX_MAX_PAGES, OPENALEX_MAX_W
 from .contract import (
     CoverageState,
     NormalizedSourceDocument,
-    OriginalAvailability,
     SourceBatch,
     SourceHealth,
+)
+from .openalex_normalize import (
+    index_works_from_snapshot,
+    normalize_openalex_work,
+    openalex_id_from_source_document,
 )
 
 
@@ -68,40 +69,37 @@ class OpenAlexFastTrackAdapter:
                 documents=[],
                 coverage_state=CoverageState.SEARCH_ERROR,
                 calls_used=1,
+                error=result.error.error_code,
             )
         snapshot_id = f"snap_{run_id}_openalex"
+        work_index: dict[str, dict[str, Any]] = {}
         if result.documents:
             snapshot_id = result.documents[0].snapshot_pointer or snapshot_id
+            work_index = index_works_from_snapshot(result.documents[0].snapshot_pointer)
         docs: list[NormalizedSourceDocument] = []
         for doc in result.documents:
-            meta = {
-                "origin_url_or_official_id": doc.origin_url_or_official_id,
-                "coverage": doc.coverage,
-            }
-            year = None
-            if doc.published_at:
-                try:
-                    year = int(str(doc.published_at)[:4])
-                except ValueError:
-                    year = None
-            docs.append(
-                NormalizedSourceDocument(
-                    source_document_id=f"doc_{hashlib.sha256(doc.source_id.encode()).hexdigest()[:16]}",
-                    source_id=doc.source_id,
-                    source_type="openalex_work",
-                    stable_external_id=doc.source_id,
-                    title=doc.title,
-                    year=year,
-                    canonical_url=doc.origin_url_or_official_id,
-                    original_availability_status=OriginalAvailability.METADATA_ONLY,
-                    metadata_json=meta,
-                    source_snapshot_id=snapshot_id,
-                    retrieved_at=doc.retrieved_at.isoformat(),
-                    content_hash_of_api_record=doc.content_hash,
-                    coverage_state=CoverageState.FOUND,
-                    abstract=None,
+            oa_id = openalex_id_from_source_document(doc.source_id, doc.primary_origin_id)
+            work = work_index.get(oa_id)
+            if work is not None:
+                docs.append(
+                    normalize_openalex_work(
+                        work,
+                        snapshot_id=snapshot_id,
+                        retrieved_at=doc.retrieved_at.isoformat(),
+                    )
                 )
-            )
+            else:
+                docs.append(
+                    normalize_openalex_work(
+                        {
+                            "id": oa_id,
+                            "title": doc.title,
+                            "publication_date": doc.published_at,
+                        },
+                        snapshot_id=snapshot_id,
+                        retrieved_at=doc.retrieved_at.isoformat(),
+                    )
+                )
         return SourceBatch(
             documents=docs,
             coverage_state=CoverageState.FOUND if docs else CoverageState.NOT_FOUND_IN_SOURCE,
@@ -170,43 +168,7 @@ class OpenAlexFastTrackAdapter:
     def _normalize_work(
         self, work: dict[str, Any], *, snapshot_id: str
     ) -> NormalizedSourceDocument:
-        wid = work.get("id") or work.get("openalex_id") or ""
-        title = (work.get("title") or work.get("display_name") or "Untitled").strip()
-        abstract = _reconstruct_abstract(work.get("abstract_inverted_index"))
-        year = work.get("publication_year")
-        ids_map = work.get("ids") or {}
-        doi = ids_map.get("doi") if isinstance(ids_map, dict) else None
-        landing = (work.get("primary_location") or {}).get("landing_page_url") or wid
-        raw_hash = hashlib.sha256(json.dumps(work, sort_keys=True).encode()).hexdigest()
-        orgs = []
-        for auth in work.get("authorships") or []:
-            inst = (auth.get("institutions") or [{}])[0]
-            name = inst.get("display_name")
-            if name:
-                orgs.append(name)
-        avail = (
-            OriginalAvailability.ABSTRACT_AVAILABLE
-            if abstract
-            else OriginalAvailability.METADATA_ONLY
-        )
-        return NormalizedSourceDocument(
-            source_document_id=f"doc_{hashlib.sha256(wid.encode()).hexdigest()[:16]}",
-            source_id=wid,
-            source_type="openalex_work",
-            stable_external_id=wid,
-            title=title,
-            year=int(year) if year is not None else None,
-            canonical_url=str(landing),
-            doi=doi,
-            original_availability_status=avail,
-            metadata_json={"openalex": work},
-            source_snapshot_id=snapshot_id,
-            retrieved_at=datetime.now(UTC).isoformat(),
-            content_hash_of_api_record=raw_hash,
-            coverage_state=CoverageState.FOUND,
-            organization_names=orgs,
-            abstract=abstract,
-        )
+        return normalize_openalex_work(work, snapshot_id=snapshot_id)
 
 
 @dataclass(slots=True)
@@ -226,17 +188,3 @@ def _build_stage_a_openalex_adapter() -> OpenAlexAdapter:
         mailto=os.environ.get("OPENALEX_MAILTO", "").strip() or None,
         base_url=os.environ.get("SOURCE_BASE_URL", "").strip() or "https://api.openalex.org",
     )
-
-
-def _reconstruct_abstract(inverted: dict[str, list[int]] | None) -> str | None:
-    if not inverted:
-        return None
-    max_pos = max((max(positions) for positions in inverted.values()), default=-1)
-    if max_pos < 0:
-        return None
-    words: list[str] = [""] * (max_pos + 1)
-    for word, positions in inverted.items():
-        for p in positions:
-            words[p] = word
-    text = " ".join(w for w in words if w).strip()
-    return text or None

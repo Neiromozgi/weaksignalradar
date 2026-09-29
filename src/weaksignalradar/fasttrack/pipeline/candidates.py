@@ -2,68 +2,36 @@
 
 from __future__ import annotations
 
-import hashlib
-import re
-from collections import defaultdict
+from typing import Any
 
+from ..embedding.backend import EmbeddingBackend
 from ..sources.contract import NormalizedSourceDocument
+from .embedding_cluster import cluster_documents, clustering_provenance_defaults
 
-
-def _tokenize(text: str) -> set[str]:
-    return {t.lower() for t in re.findall(r"[\w\u0080-\uFFFF]{4,}", text.lower())}
+DISCOVERY_EMBEDDING_UNAVAILABLE = "EMBEDDING_UNAVAILABLE"
 
 
 def discover_candidates(
     documents: list[NormalizedSourceDocument],
     *,
     domain_id: str,
-    method_version: str = "keyphrase_cluster_v1",
-) -> tuple[list[dict], str]:
-    """Returns candidate dicts + method_version recorded in run metadata."""
+    backend: EmbeddingBackend | None = None,
+    method_version: str = "embedding_cluster_v1",
+) -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
+    """Returns candidate dicts, method_version, and clustering provenance."""
     del domain_id
-    clusters: dict[str, list[NormalizedSourceDocument]] = defaultdict(list)
-    for doc in documents:
-        key = _cluster_key(doc.title)
-        clusters[key].append(doc)
-
-    out: list[dict] = []
-    for key, docs in clusters.items():
-        if not key:
-            continue
-        cid = f"tech_{hashlib.sha256(key.encode()).hexdigest()[:12]}"
-        years = [d.year for d in docs if d.year]
-        orgs: set[str] = set()
-        for d in docs:
-            orgs.update(d.organization_names)
-        source_classes = {d.source_type.split("_")[0] for d in docs}
-        out.append(
+    prov = clustering_provenance_defaults()
+    if method_version != prov.discovery_method:
+        prov = clustering_provenance_defaults()
+    base_meta = prov.as_dict()
+    if backend is None:
+        base_meta.update(
             {
-                "candidate_id": cid,
-                "canonical_name": key.replace("_", " ").title(),
-                "name_ru": None,
-                "name_en": key.replace("_", " ").title(),
-                "aliases": [],
-                "document_ids": [d.source_document_id for d in docs],
-                "first_observed_year": min(years) if years else None,
-                "document_count": len(docs),
-                "organization_count": len(orgs),
-                "source_class_count": len(source_classes),
+                "discovery_status": DISCOVERY_EMBEDDING_UNAVAILABLE,
+                "cluster_count": 0,
+                "candidate_cap_exceeded": False,
             }
         )
-    return out, method_version
-
-
-def _cluster_key(title: str) -> str:
-    low = title.lower()
-    if "quantum" in low and "photon" in low:
-        return "quantum_photonic"
-    if "solid" in low and "battery" in low:
-        return "solid_state_battery"
-    return _primary_keyphrase(title)
-
-
-def _primary_keyphrase(title: str) -> str:
-    tokens = sorted(_tokenize(title), key=len, reverse=True)
-    if not tokens:
-        return "unknown_topic"
-    return tokens[0]
+        return [], prov.discovery_method, base_meta
+    candidates, cluster_meta = cluster_documents(documents, backend, prov=prov)
+    return candidates, prov.discovery_method, cluster_meta

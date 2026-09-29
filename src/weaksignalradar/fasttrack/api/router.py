@@ -16,7 +16,11 @@ from ..corpus.snapshot_registry import get_snapshot_metadata, list_snapshot_cata
 from ..embedding.backend import embedding_runtime_status, get_embedding_backend
 from ..llm.base import llm_runtime_status
 from ..llm.profile import LLM_MODEL, LLM_PROFILE_ID, LLM_PROVIDER
-from ..persistence_guard import ensure_persistence_operational, is_persistence_failure
+from ..persistence_guard import (
+    ensure_persistence_operational,
+    ensure_postgres_persistence,
+    is_persistence_failure,
+)
 from ..pipeline.runner import refresh_corpus, start_analysis
 from ..sources.cordis import CordisAdapter
 from ..sources.epo_lod import EpoLodAdapter
@@ -109,7 +113,7 @@ def get_analysis(run_id: str, request: Request) -> dict[str, Any]:
 
 @router.post("/refresh")
 def post_refresh(body: RefreshRequest, request: Request) -> dict[str, Any]:
-    engine = ensure_persistence_operational(request)
+    engine = ensure_postgres_persistence(request)
     try:
         result = refresh_corpus(query=body.query, engine=engine)
     except Exception as exc:

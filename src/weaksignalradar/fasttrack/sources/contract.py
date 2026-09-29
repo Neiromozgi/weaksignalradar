@@ -62,6 +62,7 @@ class SourceBatch:
     coverage_state: CoverageState
     cursor: str | None = None
     calls_used: int = 0
+    error: str | None = None
 
 
 class SourceAdapter(Protocol):

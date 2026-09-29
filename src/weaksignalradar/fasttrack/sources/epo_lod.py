@@ -56,10 +56,19 @@ SELECT ?pub ?title ?date WHERE {{
 """
         result = run_sparql(self._endpoint, sparql, timeout_s=60.0)
         if not result.ok:
-            if result.error == "timeout":
-                return SourceBatch(documents=[], coverage_state=CoverageState.PARTIAL, calls_used=1)
+            safe_error = result.error or "search_error"
+            if safe_error == "timeout":
+                return SourceBatch(
+                    documents=[],
+                    coverage_state=CoverageState.PARTIAL,
+                    calls_used=1,
+                    error=safe_error,
+                )
             return SourceBatch(
-                documents=[], coverage_state=CoverageState.SEARCH_ERROR, calls_used=1
+                documents=[],
+                coverage_state=CoverageState.SEARCH_ERROR,
+                calls_used=1,
+                error=safe_error,
             )
         docs: list[NormalizedSourceDocument] = []
         for row in result.bindings:
