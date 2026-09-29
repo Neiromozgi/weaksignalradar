@@ -55,10 +55,16 @@ def plan_domain_query(domain_original: str) -> dict[str, Any]:
 
 
 def subquery_sequence(plan: dict[str, Any]) -> list[str]:
-    out: list[str] = []
-    seen: set[str] = set()
+    broad, facets = split_planner_subqueries(plan)
+    return broad + facets
 
-    def add(q: str) -> None:
+
+def split_planner_subqueries(plan: dict[str, Any]) -> tuple[list[str], list[str]]:
+    """Broad domain strings vs technical facet queries (deterministic order)."""
+    seen: set[str] = set()
+    broad: list[str] = []
+
+    def add_broad(q: str) -> None:
         q = q.strip()
         if not q:
             return
@@ -66,16 +72,25 @@ def subquery_sequence(plan: dict[str, Any]) -> list[str]:
         if k in seen:
             return
         seen.add(k)
-        out.append(q)
+        broad.append(q)
 
-    add(str(plan.get("domain_original") or ""))
+    add_broad(str(plan.get("domain_original") or ""))
     if plan.get("planner_status") != "PLANNER_OK":
-        return out
-    add(str(plan.get("domain_en") or ""))
+        return broad, []
+    add_broad(str(plan.get("domain_en") or ""))
     for alias in plan.get("domain_aliases") or []:
         if isinstance(alias, str):
-            add(alias)
+            add_broad(alias)
+    facets: list[str] = []
     for facet in plan.get("technical_facets") or []:
-        if isinstance(facet, dict):
-            add(str(facet.get("query") or ""))
-    return out
+        if not isinstance(facet, dict):
+            continue
+        q = str(facet.get("query") or "").strip()
+        if not q:
+            continue
+        k = q.lower()
+        if k in seen:
+            continue
+        seen.add(k)
+        facets.append(q)
+    return broad, facets
