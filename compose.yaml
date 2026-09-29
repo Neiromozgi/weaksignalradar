@@ -45,6 +45,8 @@ services:
       EPO_LIVE_DISABLED: "${EPO_LIVE_DISABLED:-}"
       # Competition Docker path always uses frozen HF E5 (ignore host test overrides in .env).
       WSR_EMBEDDING_BACKEND: "auto"
+      DISCOVERY_V2_ENABLED: "${DISCOVERY_V2_ENABLED:-true}"
+      WSR_ALLOW_LLM_PROVIDER: "${WSR_ALLOW_LLM_PROVIDER:-0}"
       SNAPSHOT_DIR: "/app/snapshots"
       WSR_EVENT_LOG_PATH: "/app/logs/snnit-radar.jsonl"
     volumes:

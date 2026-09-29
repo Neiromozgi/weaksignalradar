@@ -53,6 +53,34 @@ def test_create_analysis_and_fetch_registries(client):
     assert method.json()["score_profile_id"] == "ABCDE_v1"
 
 
+def test_name_ru_recorded_on_candidates_without_top15(client):
+    resp = client.post(
+        "/api/v1/analyses",
+        json={
+            "query": "solid state battery",
+            "data_mode": "CACHE",
+            "score_profile_id": "ABCDE_v1",
+            "snapshot_id": "ft_bench_v1",
+        },
+    )
+    assert resp.status_code == 200
+    run_id = resp.json()["run_id"]
+    cands = client.get(f"/api/v1/analyses/{run_id}/candidates", params={"state": "all"})
+    assert cands.status_code == 200
+    rows = cands.json()["candidates"]
+    assert rows, "CACHE benchmark must expose candidates for name_ru_recorded"
+    for row in rows:
+        assert "name_ru_recorded" in row
+        assert row["name_ru_recorded"] is None
+    insufficient = client.get(f"/api/v1/analyses/{run_id}/registries/insufficient")
+    assert insufficient.status_code == 200
+    ins_rows = insufficient.json().get("candidates") or []
+    sample = ins_rows[0] if ins_rows else rows[0]
+    assert sample["name_ru_recorded"] is None
+    if sample.get("name_ru"):
+        assert sample["name_ru"] != sample["name_ru_recorded"]
+
+
 def test_refresh_requires_postgres_engine(client):
     resp = client.post("/api/v1/refresh", json={"query": "test query"})
     assert resp.status_code == 503

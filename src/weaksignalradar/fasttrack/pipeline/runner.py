@@ -26,13 +26,19 @@ from ..discovery_v2.llm_run_budget import (
 )
 from ..discovery_v2.query_planner import plan_domain_query
 from ..discovery_v2.retrieval import retrieve_openalex_v2
+from ..discovery_v2.tmf_extract import provider_calls_made as tmf_provider_calls_made
 from ..domain.run_state import AnalysisRunState, CandidateRecord
 from ..embedding.backend import (
     EmbeddingBackend,
     embedding_runtime_status,
     get_embedding_backend,
 )
-from ..llm.base import TechnicalSignature, get_llm_adapter, llm_runtime_status
+from ..llm.base import (
+    NotConfiguredLLMAdapter,
+    TechnicalSignature,
+    get_llm_adapter,
+    llm_runtime_status,
+)
 from ..llm.profile import LLM_MODEL, LLM_PROFILE_ID
 from ..persistence_guard import is_persistence_failure
 from ..sources.budget import OPENALEX_MAX_WORKS, BudgetTracker
@@ -52,6 +58,7 @@ from .features import (
 )
 from .llm_diagnostics import LLMDiagnostics
 from .percentiles import inverse_percentiles, midrank_percentiles, percentile_quality
+from .run_context import clear_run_data_mode, is_offline_replay_mode, set_run_data_mode
 
 
 def start_analysis(
@@ -169,6 +176,7 @@ def refresh_corpus(
 
 def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
     begin_run_llm_budget()
+    set_run_data_mode(state.data_mode)
     try:
         _execute_pipeline_inner(state, repo)
     finally:
@@ -176,6 +184,7 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
         if budget is not None:
             state.provenance.update(budget.as_provenance())
         clear_run_llm_budget()
+        clear_run_data_mode()
 
 
 def _execute_pipeline_inner(state: AnalysisRunState, repo: RunRepository) -> None:
@@ -183,6 +192,9 @@ def _execute_pipeline_inner(state: AnalysisRunState, repo: RunRepository) -> Non
     state.documents = documents
     state.coverage_summary = coverage
     state.source_runs = source_runs
+    if is_offline_replay_mode():
+        state.provenance["offline_replay"] = True
+        coverage["offline_replay"] = True
 
     llm = get_llm_adapter()
     backend: EmbeddingBackend | None
@@ -237,25 +249,32 @@ def _execute_pipeline_inner(state: AnalysisRunState, repo: RunRepository) -> Non
         evidence_hash = hashlib.sha256("\n".join(evidence).encode("utf-8")).hexdigest()
         sig = repo.get_extraction_replay(state.snapshot_id, cd["candidate_id"], evidence_hash)
         if sig is None:
-            llm_diag.begin_provider_call()
-            sig = llm.extract_signature(
-                candidate_name=cd["canonical_name"], evidence_texts=evidence
-            )
-            llm_diag.finish_provider_call(sig)
-            if sig.validation_status in {
-                "LLM_CALL_BUDGET_EXCEEDED",
-                "LLM_TIME_BUDGET_EXCEEDED",
-            } or (sig.extraction_status == "PARTIAL" and sig.validation_status):
-                state.status = "PARTIAL"
-            if sig.validation_status == "PASSED":
-                repo.save_extraction(
-                    run_id=state.run_id,
-                    candidate_id=cd["candidate_id"],
-                    evidence_hash=evidence_hash,
-                    signature=sig,
-                    extraction_payload={"signature": _sig_payload(sig)},
-                    provenance={"snapshot_id": state.snapshot_id, "mode": state.data_mode},
+            if is_offline_replay_mode():
+                sig = NotConfiguredLLMAdapter().extract_signature(
+                    candidate_name=cd["canonical_name"],
+                    evidence_texts=evidence,
                 )
+                llm_diag.mark_offline_stub(sig)
+            else:
+                llm_diag.begin_provider_call()
+                sig = llm.extract_signature(
+                    candidate_name=cd["canonical_name"], evidence_texts=evidence
+                )
+                llm_diag.finish_provider_call(sig)
+                if sig.validation_status in {
+                    "LLM_CALL_BUDGET_EXCEEDED",
+                    "LLM_TIME_BUDGET_EXCEEDED",
+                } or (sig.extraction_status == "PARTIAL" and sig.validation_status):
+                    state.status = "PARTIAL"
+                if sig.validation_status == "PASSED":
+                    repo.save_extraction(
+                        run_id=state.run_id,
+                        candidate_id=cd["candidate_id"],
+                        evidence_hash=evidence_hash,
+                        signature=sig,
+                        extraction_payload={"signature": _sig_payload(sig)},
+                        provenance={"snapshot_id": state.snapshot_id, "mode": state.data_mode},
+                    )
         else:
             llm_diag.mark_replay(sig)
         signatures.append(sig)
@@ -292,6 +311,7 @@ def _execute_pipeline_inner(state: AnalysisRunState, repo: RunRepository) -> Non
     state.candidates = candidates
     state.registries = _build_registries(candidates)
     state.provenance["llm_diagnostics"] = llm_diag.as_dict()
+    state.provenance["tmf_provider_calls"] = tmf_provider_calls_made()
     emit_event(
         "LLM_EXTRACTION_SUMMARY",
         run_id=state.run_id,

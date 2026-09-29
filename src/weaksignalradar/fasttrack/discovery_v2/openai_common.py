@@ -19,6 +19,10 @@ def openai_configured() -> bool:
 
 
 def llm_provider_calls_allowed() -> bool:
+    from ..pipeline.run_context import is_offline_replay_mode
+
+    if is_offline_replay_mode():
+        return False
     return os.environ.get("WSR_ALLOW_LLM_PROVIDER", "").strip().lower() in {
         "1",
         "true",

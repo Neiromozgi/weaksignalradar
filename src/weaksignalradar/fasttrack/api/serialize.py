@@ -65,9 +65,11 @@ def candidate_to_api(c: CandidateRecord, state: AnalysisRunState) -> dict[str, A
             "availability": f.get("availability"),
         }
     names = technology_display_names(c)
+    recorded_ru = (c.name_ru or "").strip() or None
     return {
         "candidate_id": c.candidate_id,
         "canonical_name": c.canonical_name,
+        "name_ru_recorded": recorded_ru,
         "name_ru": names["name_ru"],
         "name_original": names["name_original"],
         "display_label": names["display_label"],
@@ -94,6 +96,7 @@ def candidate_to_api(c: CandidateRecord, state: AnalysisRunState) -> dict[str, A
         "document_count": c.document_count,
         "organization_count": c.organization_count,
         "source_class_count": c.source_class_count,
+        "decision_explanation": c.decision_explanation,
     }
 
 

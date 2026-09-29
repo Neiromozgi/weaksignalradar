@@ -28,6 +28,10 @@ class LLMDiagnostics:
         self.llm_replayed += 1
         self._classify(sig)
 
+    def mark_offline_stub(self, sig: TechnicalSignature) -> None:
+        """CACHE/SNAPSHOT miss without provider call."""
+        self._classify(sig)
+
     def begin_provider_call(self) -> None:
         self.llm_provider_calls += 1
         self._t0 = time.monotonic()
