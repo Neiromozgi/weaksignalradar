@@ -35,6 +35,8 @@ class CandidateRecord:
     fwci_diagnostic: float | None = None
     bootstrap_status: str = "NOT_REQUESTED"
     d_diagnostics: dict[str, Any] = field(default_factory=dict)
+    decision_explanation: dict[str, Any] | None = None
+    discovery_frames: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass(slots=True)

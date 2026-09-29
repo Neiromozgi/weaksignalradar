@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from ..discovery_v2.flags import discovery_v2_enabled
+from ..discovery_v2.pipeline import discover_candidates_v2
 from ..embedding.backend import EmbeddingBackend
 from ..sources.contract import NormalizedSourceDocument
 from .embedding_cluster import cluster_documents, clustering_provenance_defaults
@@ -19,7 +21,8 @@ def discover_candidates(
     method_version: str = "embedding_cluster_v1",
 ) -> tuple[list[dict[str, Any]], str, dict[str, Any]]:
     """Returns candidate dicts, method_version, and clustering provenance."""
-    del domain_id
+    if discovery_v2_enabled():
+        return discover_candidates_v2(documents, domain_id=domain_id, backend=backend)
     prov = clustering_provenance_defaults()
     if method_version != prov.discovery_method:
         prov = clustering_provenance_defaults()

@@ -110,6 +110,8 @@ def _candidate_to_dict(c: CandidateRecord) -> dict[str, Any]:
         "fwci_diagnostic": c.fwci_diagnostic,
         "bootstrap_status": c.bootstrap_status,
         "d_diagnostics": c.d_diagnostics,
+        "decision_explanation": c.decision_explanation,
+        "discovery_frames": c.discovery_frames,
     }
 
 
@@ -136,6 +138,8 @@ def _candidate_from_dict(raw: dict[str, Any]) -> CandidateRecord:
         fwci_diagnostic=raw.get("fwci_diagnostic"),
         bootstrap_status=raw.get("bootstrap_status", "NOT_REQUESTED"),
         d_diagnostics=dict(raw.get("d_diagnostics") or {}),
+        decision_explanation=raw.get("decision_explanation"),
+        discovery_frames=list(raw.get("discovery_frames") or []),
     )
 
 

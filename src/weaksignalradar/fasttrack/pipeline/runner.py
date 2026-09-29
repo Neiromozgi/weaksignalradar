@@ -17,6 +17,15 @@ from ..config.scoring import ABCDE_V1, FEATURE_CONTRACT_VERSION
 from ..corpus.snapshot_loader import load_openalex_works
 from ..corpus.snapshot_registry import load_snapshot_documents, register_live_snapshot
 from ..db.repository import RunRepository
+from ..discovery_v2.decision_explanation import build_decision_explanation
+from ..discovery_v2.flags import discovery_v2_enabled
+from ..discovery_v2.llm_run_budget import (
+    begin_run_llm_budget,
+    clear_run_llm_budget,
+    get_active_run_llm_budget,
+)
+from ..discovery_v2.query_planner import plan_domain_query
+from ..discovery_v2.retrieval import retrieve_openalex_v2
 from ..domain.run_state import AnalysisRunState, CandidateRecord
 from ..embedding.backend import (
     EmbeddingBackend,
@@ -26,7 +35,7 @@ from ..embedding.backend import (
 from ..llm.base import TechnicalSignature, get_llm_adapter, llm_runtime_status
 from ..llm.profile import LLM_MODEL, LLM_PROFILE_ID
 from ..persistence_guard import is_persistence_failure
-from ..sources.budget import BudgetTracker
+from ..sources.budget import OPENALEX_MAX_WORKS, BudgetTracker
 from ..sources.contract import CoverageState, NormalizedSourceDocument
 from ..sources.cordis import CordisAdapter
 from ..sources.epo_lod import EpoLodAdapter
@@ -74,6 +83,7 @@ def start_analysis(
         provenance={
             **embedding_provenance_fields(),
             "discovery_method": None,
+            "discovery_version": "v2" if discovery_v2_enabled() else "v1",
             "llm_profile_id": LLM_PROFILE_ID,
             "llm_status": llm_runtime_status(),
         },
@@ -158,6 +168,17 @@ def refresh_corpus(
 
 
 def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
+    begin_run_llm_budget()
+    try:
+        _execute_pipeline_inner(state, repo)
+    finally:
+        budget = get_active_run_llm_budget()
+        if budget is not None:
+            state.provenance.update(budget.as_provenance())
+        clear_run_llm_budget()
+
+
+def _execute_pipeline_inner(state: AnalysisRunState, repo: RunRepository) -> None:
     documents, coverage, source_runs = _acquire_documents(state)
     state.documents = documents
     state.coverage_summary = coverage
@@ -177,8 +198,12 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
     )
     state.provenance["discovery_method"] = method
     state.provenance.update(cluster_prov)
+    if discovery_v2_enabled():
+        state.provenance["discovery_version"] = "v2"
     if cluster_prov.get("discovery_status") == "EMBEDDING_UNAVAILABLE":
         state.provenance["discovery_status"] = "EMBEDDING_UNAVAILABLE"
+    elif cluster_prov.get("discovery_status"):
+        state.provenance["discovery_status"] = cluster_prov["discovery_status"]
     state.provenance["embedding_backend"] = emb_label
     state.provenance["embedding_runtime_status"] = embedding_runtime_status()
     if backend is None:
@@ -217,6 +242,11 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
                 candidate_name=cd["canonical_name"], evidence_texts=evidence
             )
             llm_diag.finish_provider_call(sig)
+            if sig.validation_status in {
+                "LLM_CALL_BUDGET_EXCEEDED",
+                "LLM_TIME_BUDGET_EXCEEDED",
+            } or (sig.extraction_status == "PARTIAL" and sig.validation_status):
+                state.status = "PARTIAL"
             if sig.validation_status == "PASSED":
                 repo.save_extraction(
                     run_id=state.run_id,
@@ -245,6 +275,7 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
                 source_class_count=cd["source_class_count"],
                 signature=sig,
                 yearly_stats=[asdict(y) for y in yearly],
+                discovery_frames=cd.get("frames") or [],
             )
         )
 
@@ -256,6 +287,8 @@ def _execute_pipeline(state: AnalysisRunState, repo: RunRepository) -> None:
     )
     _apply_sufficiency_and_filters(candidates, documents)
     _score_and_rank(candidates)
+    for c in candidates:
+        c.decision_explanation = build_decision_explanation(c, frames=c.discovery_frames)
     state.candidates = candidates
     state.registries = _build_registries(candidates)
     state.provenance["llm_diagnostics"] = llm_diag.as_dict()
@@ -371,37 +404,56 @@ def _acquire_documents(
     if mode == "LIVE":
         budgets = BudgetTracker()
         t0 = datetime.now(UTC).isoformat()
-        oa_result = oa.search_live_bounded(
-            state.normalized_query,
-            run_id=state.run_id,
-            max_calls=budgets.for_source("openalex").remaining,
-        )
-        budgets.for_source("openalex").consume(oa_result.calls_used)
-        cordis = CordisAdapter().search(
-            state.normalized_query, budgets.for_source("cordis").remaining
-        )
+        planner_plan = plan_domain_query(state.normalized_query) if discovery_v2_enabled() else None
+        if discovery_v2_enabled():
+            oa_docs, retrieval_meta = retrieve_openalex_v2(
+                query=state.normalized_query,
+                run_id=state.run_id,
+                adapter=oa,
+                max_calls=budgets.for_source("openalex").remaining,
+                plan=planner_plan,
+            )
+            oa_calls_used = int(retrieval_meta.get("openalex_calls_used") or 0)
+            budgets.for_source("openalex").consume(oa_calls_used)
+            oa_cov = CoverageState.FOUND if oa_docs else CoverageState.NOT_FOUND_IN_SOURCE
+            oa_calls = oa_calls_used
+            oa_pages = len(retrieval_meta.get("subqueries_executed") or [])
+            oa_cap = len(oa_docs) >= OPENALEX_MAX_WORKS
+            coverage["openalex_v2_retrieval"] = retrieval_meta
+            coverage["query_planner"] = planner_plan
+            cordis_query = str((planner_plan or {}).get("domain_en") or state.normalized_query)
+        else:
+            oa_result = oa.search_live_bounded(
+                state.normalized_query,
+                run_id=state.run_id,
+                max_calls=budgets.for_source("openalex").remaining,
+            )
+            budgets.for_source("openalex").consume(oa_result.calls_used)
+            oa_docs = list(oa_result.documents)
+            oa_cov = oa_result.coverage_state
+            oa_calls = oa_result.calls_used
+            oa_pages = oa_result.pages
+            oa_cap = oa_result.cap_reached
+            cordis_query = state.normalized_query
+        cordis = CordisAdapter().search(cordis_query, budgets.for_source("cordis").remaining)
         budgets.for_source("cordis").consume(cordis.calls_used)
-        epo = EpoLodAdapter().search(
-            state.normalized_query, budgets.for_source("epo_lod").remaining
-        )
+        epo = EpoLodAdapter().search(cordis_query, budgets.for_source("epo_lod").remaining)
         budgets.for_source("epo_lod").consume(epo.calls_used)
         t1 = datetime.now(UTC).isoformat()
-        coverage["openalex"] = oa_result.coverage_state.value
+        coverage["openalex"] = oa_cov.value
         coverage["cordis"] = cordis.coverage_state.value
         coverage["epo_lod"] = epo.coverage_state.value
-        coverage["openalex_pages"] = oa_result.pages
-        coverage["openalex_cap_reached"] = oa_result.cap_reached
-        docs = _dedupe_documents(
-            list(oa_result.documents) + list(cordis.documents) + list(epo.documents)
-        )
+        coverage["openalex_pages"] = oa_pages
+        coverage["openalex_cap_reached"] = oa_cap
+        docs = _dedupe_documents(list(oa_docs) + list(cordis.documents) + list(epo.documents))
         source_runs.extend(
             [
                 _source_run(
                     source="openalex",
-                    execution_status=oa_result.coverage_state.value,
-                    external_calls=oa_result.calls_used,
-                    records_received=len(oa_result.documents),
-                    cap_reached=oa_result.cap_reached,
+                    execution_status=oa_cov.value,
+                    external_calls=oa_calls,
+                    records_received=len(oa_docs),
+                    cap_reached=oa_cap,
                     started_at=t0,
                     completed_at=t1,
                 ),
@@ -432,7 +484,7 @@ def _acquire_documents(
                 component="epo_lod",
                 reason_code=epo.error,
             )
-        if oa_result.coverage_state == CoverageState.SEARCH_ERROR:
+        if oa_cov == CoverageState.SEARCH_ERROR:
             coverage["reference_source"] = "REFERENCE_SOURCE_UNAVAILABLE"
         return docs, coverage, source_runs
     raise ValueError(f"unsupported data_mode: {mode}")

@@ -16,7 +16,7 @@ from .contract import (
 )
 from .sparql import binding_value, run_sparql
 
-DEFAULT_ENDPOINT = "https://data.epo.org/publication-databank/sparql"
+DEFAULT_ENDPOINT = "https://data.epo.org/linked-data/query"
 
 
 class EpoLodAdapter:
@@ -47,10 +47,10 @@ class EpoLodAdapter:
         if not token:
             return SourceBatch(documents=[], coverage_state=CoverageState.SEARCHED_OK, calls_used=0)
         sparql = f"""
-PREFIX epo: <http://data.epo.org/linked-data/def/patent/>
+PREFIX patent: <http://data.epo.org/linked-data/def/patent/>
 SELECT ?pub ?title ?date WHERE {{
-  ?pub epo:inventionTitle ?title .
-  OPTIONAL {{ ?pub epo:publicationDate ?date }}
+  ?pub patent:titleOfInvention ?title .
+  OPTIONAL {{ ?pub patent:publicationDate ?date }}
   FILTER(CONTAINS(LCASE(STR(?title)), "{token}"))
 }} LIMIT 25
 """

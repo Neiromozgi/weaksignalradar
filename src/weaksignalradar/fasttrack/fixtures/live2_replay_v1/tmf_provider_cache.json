@@ -1,0 +1,458 @@
+{
+  "prompt_version": "tmf_extraction_v1",
+  "by_doc_id": {
+    "doc_93f55967178370db": {
+      "frames": [
+        {
+          "mechanism": "Предлагается концептуальная модель связи между",
+          "object": null,
+          "function": null,
+          "evidence_span": "Предлагается концептуальная модель связи между уровнем финтех-зрелости металлургической компании и её стоимостью, которая может служить основой для дальнейших количественных исследований и практических управленческих решений.",
+          "label": "MACRO_THEME"
+        },
+        {
+          "mechanism": "The theoretical part summarizes approaches",
+          "object": null,
+          "function": null,
+          "evidence_span": "The theoretical part summarizes approaches to the digital transformation of corporate finance and systematizes fintech solutions used in metallurgy.",
+          "label": "MACRO_THEME"
+        },
+        {
+          "mechanism": "A conceptual model of the",
+          "object": null,
+          "function": null,
+          "evidence_span": "A conceptual model of the relationship between the level of fintech maturity of a metallurgical company and its value is proposed, which can serve as a basis for further quantitative research and practical management decisions.",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_17f92dc88d2dc01c": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_ac38c3393c17448f": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_f820409705a99595": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_48611ccfbbb6e0dd": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_c1fd8da0ccaba879": {
+      "frames": [
+        {
+          "mechanism": "Методический инструментарий формирования профессионально-квалификационного состава",
+          "object": null,
+          "function": null,
+          "evidence_span": "Методический инструментарий формирования профессионально-квалификационного состава работников финтех-компаний",
+          "label": "MACRO_THEME"
+        },
+        {
+          "mechanism": "В статье представлена комплексная методика,",
+          "object": null,
+          "function": null,
+          "evidence_span": "В статье представлена комплексная методика, содержащая принципы формирования профессионально-квалификационного состава работников финтех-компаний, а также инструментарий для планирования потребности в персонале, привлечения кандидатов, оценки их профессионального уровня на основе разработанной модели компетенций, принятия решений о найме, адаптации и развитии сотрудников, формировании кадрового ре",
+          "label": "MACRO_THEME"
+        },
+        {
+          "mechanism": "Методика также содержит обобщенный алгоритм оценки",
+          "object": null,
+          "function": null,
+          "evidence_span": "Методика также содержит обобщенный алгоритм оценки кандидатов, отличительной особенностью которого является общая ориентированность на снижение риска использования кандидатами инструментов искусственного интеллекта путем внедрения элементов технического интервью на этапе HR-интервью и применения инструмента live-coding при профессиональной оценке IT-специалистов, а также системных аналитиков.",
+          "label": "TECHNOLOGY_MECHANISM"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_7c368214fb531f4b": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_620350c165ded768": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_c5a72e4b1c6e2c2d": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_1b7da12dfdf33d85": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_05f7eda60ea648de": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_e4c2ae9d50a630ee": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_dbac8a3baee21193": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_37c1c10554280fca": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_3736f69e11065a19": {
+      "frames": [
+        {
+          "mechanism": "ЦИФРОВАЯ ТРАНСФОРМАЦИЯ РОССИЙСКОЙ БАНКОВСКОЙ СФЕРЫ",
+          "object": null,
+          "function": null,
+          "evidence_span": "ЦИФРОВАЯ ТРАНСФОРМАЦИЯ РОССИЙСКОЙ БАНКОВСКОЙ СФЕРЫ В УСЛОВИЯХ СОВРЕМЕННЫХ ВЫЗОВОВ И УГРОЗ",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_572c2f8b888cbbac": {
+      "frames": [
+        {
+          "mechanism": "Методический подход к оценке устойчивости",
+          "object": null,
+          "function": null,
+          "evidence_span": "Методический подход к оценке устойчивости банков в условиях цифровизации сочетает анализтрадиционных финансовых коэффициентов (ликвидность, достаточность капитала) с оценкой уровняцифровой зрелости, киберустойчивости и влияния финтех-конкурентов.",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_e67da5f89d6ffc86": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_230342633d49c59c": {
+      "frames": [
+        {
+          "mechanism": "Методический подход к оценке развития",
+          "object": null,
+          "function": null,
+          "evidence_span": "Методический подход к оценке развития платформенной экономики в финтех-секторе: регионально-отраслевой аспект",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_4f763180e2f817c7": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_84800638d86c6c06": {
+      "frames": [
+        {
+          "mechanism": "При этом финтех-сервисы, функционирующие в цифровой",
+          "object": null,
+          "function": null,
+          "evidence_span": "При этом финтех-сервисы, функционирующие в цифровой среде и опирающиеся на алгоритмическую обработку данных, не просто автоматизируют существующие процессы, а формируют качественно иную реальность взаимодействия с клиентом.",
+          "label": "METHOD_GENERIC"
+        },
+        {
+          "mechanism": "Этот процесс требует системного подхода и",
+          "object": null,
+          "function": null,
+          "evidence_span": "Этот процесс требует системного подхода и определенной последовательности решаемых задач, первой из которых становится переосмысление отдельных классических концепций и теоретических моделей маркетинга Статья посвящена анализу релевантности фундаментальных концепций маркетинга услуг (парадигмы IHIP, модели 7P, теории маркетинга взаимоотношений и методики SERVQUAL) для рынка финтех-услуг - алгоритм",
+          "label": "METHOD_GENERIC"
+        },
+        {
+          "mechanism": "Обоснован вывод о необходимости концептуальной адаптации",
+          "object": null,
+          "function": null,
+          "evidence_span": "Обоснован вывод о необходимости концептуальной адаптации теории маркетинга финансовых услуг к реалиям алгоритмически опосредованных коммуникаций в индустрии финтех-услуг.",
+          "label": "TECHNOLOGY_MECHANISM"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_b2f2758456d92693": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_b39b1c267e56ec83": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_d93218b480a7f3ac": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_9040caed28a05ccc": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_a9f7102d97d90949": {
+      "frames": [
+        {
+          "mechanism": "The importance of digital transformation",
+          "object": null,
+          "function": null,
+          "evidence_span": "The importance of digital transformation of the banking system in the regions was noted.",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_4c85d4eb23224a69": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_c0408d01835f2570": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_267dcc322693f35f": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_18e8a02feb417e41": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_b904f2abf4c97462": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_43e4ce11af0b19bb": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_d02e3be0c34bb84a": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_43214fb5d71727ac": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_17de508af308756c": {
+      "frames": [
+        {
+          "mechanism": "Национальное правовое регулирование находится на",
+          "object": null,
+          "function": null,
+          "evidence_span": "Национальное правовое регулирование находится на этапе зарождения; предпринимаются попытки правового оформления ключевых понятий на рынке финансовых и регулятивных технологий (цифровой финансовый актив, цифровая транзакция, цифровая запись, реестр цифровых транзакций, майнинг, криптовалюта, токен, смарт-контракт и др.).",
+          "label": "POLICY_REGULATION"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_c772bc512ed0d39c": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_4bb0cdc8ba7c0aea": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_678aa0c89b19e52d": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_e5a7260f06895083": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_d7245c5af631b69f": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_91e68e58f18d47ca": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_75cb559a205b3b4a": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_19989928ca6fa42d": {
+      "frames": [
+        {
+          "mechanism": "This article aims to identify",
+          "object": null,
+          "function": null,
+          "evidence_span": "This article aims to identify the most effective models for integrating fintech services into traditional financial institutions, leading to the creation of synergy and increased competitiveness in both the financial market and global digital transformation.",
+          "label": "MACRO_THEME"
+        },
+        {
+          "mechanism": "In conclusion, practical recommendations are",
+          "object": null,
+          "function": null,
+          "evidence_span": "In conclusion, practical recommendations are offered for financial institutions and fintech companies on optimizing the process of integrating fintech services, while also identifying areas for financial sector development that take into account the incorporation of fintech solutions and the formation of an efficient ecosystem for interaction.",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_b43fba690d6f8084": {
+      "frames": [
+        {
+          "mechanism": "На основе проведенного анализа предлагаются",
+          "object": null,
+          "function": null,
+          "evidence_span": "На основе проведенного анализа предлагаются возможные меры для совершенствования функционирования рынка финансового капитала, включая усиление международного сотрудничества, повышение прозрачности и адекватное регулирование финтех-компаний.",
+          "label": "POLICY_REGULATION"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_d6eb4e5302c18b9e": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_fe2bdfa76af9b763": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_9f401bfce02edf3b": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_aa9ada664e26d5cc": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_d8239c6a85ca60ba": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_45d7960c895ee247": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_6e7d4d8ea1f400d1": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_c978a83a78e11bdb": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_2663614c8e3ed876": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_8314b0afeabaf806": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_3f60035e90b62166": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_9c691cff6bf4ea9d": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_10b39554762b5945": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_07bcead7ee3d6e6d": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_81d4dd5fbd66a2c0": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_a11b7d08fd625928": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_dc8a3a0162d3e25b": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_926c5fb32697ba09": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_5a2348bd8125d420": {
+      "frames": [
+        {
+          "mechanism": "Цифровая трансформация финансового сектора: финтех,",
+          "object": null,
+          "function": null,
+          "evidence_span": "Цифровая трансформация финансового сектора: финтех, цифровые банки, криптовалюты",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_8f8b34f417c1d1dc": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_136f75acb8951ba0": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_488093599182ea73": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_ba69f1b728ad53f8": {
+      "frames": [
+        {
+          "mechanism": "The main object of research",
+          "object": null,
+          "function": null,
+          "evidence_span": "The main object of research is second-tier banks, but secondary research objects fintech ecosystem of Kazakhstan, which are defined by the fintech research methodology as compa-nies serving commercial banks, the regulator, financial market participants that offer common fintech prod-uct, organizations that represent the state's interests in the development of fintech industry and their like-minded",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_7d4b87aab90b37bd": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_54e409dbd1b3c000": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_c9def349673cfa01": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_986fd7fedfb0a968": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_9baeaf1a12fafb77": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_f7fadec5648ae244": {
+      "frames": [
+        {
+          "mechanism": "Выявлено, что экосистема финтех считается",
+          "object": null,
+          "function": null,
+          "evidence_span": "Выявлено, что экосистема финтех считается эффективной, когда обеспечивается доступ к ключевым типам капитала.",
+          "label": "MACRO_THEME"
+        }
+      ],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_b7b1a21e62791aa5": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_1c4a778154570ac1": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    },
+    "doc_4f87d6c002b2ac8b": {
+      "frames": [],
+      "prompt_version": "tmf_extraction_v1"
+    }
+  }
+}

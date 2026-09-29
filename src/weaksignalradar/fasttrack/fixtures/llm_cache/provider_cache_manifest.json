@@ -1,0 +1,760 @@
+{
+  "fixture_id": "live2_replay_v1",
+  "document_count": 75,
+  "model_id": "gpt-5.6-terra",
+  "tmf_prompt_version": "tmf_extraction_v1",
+  "planner_status": "PLANNER_OK",
+  "generated_at": "2026-09-29T13:27:27.017243+00:00",
+  "documents": [
+    {
+      "doc_id": "doc_93f55967178370db",
+      "cache_key": "321c0ef17f9c92a2679ec61d18897005bce4a5cbc2f642c97885ca666e46e9e1",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_17f92dc88d2dc01c",
+      "cache_key": "473aba83981fc5e6c84cb029b46bcfc1960d0382a48e9bcd61a54e28ec0b9966",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_ac38c3393c17448f",
+      "cache_key": "b14c052d6221d58d0a02462d2e6d33ba5997487895c17ff1a4a875dc20dc04bd",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_f820409705a99595",
+      "cache_key": "6f8ab434068f85bbecb8f8ec0921bafee7a85c528198ceec61e423388f0ea791",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_48611ccfbbb6e0dd",
+      "cache_key": "555628e3ee24ffda6db5f17dd5c3cfe810bede878d8680277a8b7e7f78e75ee1",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_c1fd8da0ccaba879",
+      "cache_key": "be3948cdf9ad54733f6521564dd569f0cd7009485b1aa8176f5a528bfcfcaf89",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_7c368214fb531f4b",
+      "cache_key": "4be17fa0199604170513375c90926c86e1b70117a26142a3381577141fa0a1b2",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_620350c165ded768",
+      "cache_key": "71a0c7b0c08d35cce7b931b02947435d5478d5f1550e3d2fa2c8d7d6563bef29",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_c5a72e4b1c6e2c2d",
+      "cache_key": "0703c1a8926de92943161db918f16400ef48c7cd1ec54b8b81c0902baa0b0f89",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 0,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_1b7da12dfdf33d85",
+      "cache_key": "711a91e4543d263f929af3362c5a2dced761463204d3e11cd95f38a0b37d4c31",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_05f7eda60ea648de",
+      "cache_key": "d519c553900d17837b7219771a00d38a79646585f1123a4deec66a3bb2022351",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_e4c2ae9d50a630ee",
+      "cache_key": "e3d486d214585b31f446f74c1247ad483a16ec8cc5df5e343a38153fd29bc4af",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 3,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_dbac8a3baee21193",
+      "cache_key": "6c416449e7a94d150663cd807715df4cea6089e23b259bee30032bbedc3a48b1",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_37c1c10554280fca",
+      "cache_key": "dd42618f55737c37dd6395c00ba72e018c60d97ce398539952f57d5d83a1863b",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_3736f69e11065a19",
+      "cache_key": "26b1b95e20770ff4215677f3b805c5960ddad08ae765d197fb074020b685d270",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 3,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_572c2f8b888cbbac",
+      "cache_key": "a56428cd3b8a1374f10177765cceabf42ace70a7715753ce39192a3c018e9b85",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_e67da5f89d6ffc86",
+      "cache_key": "b8d6aa3632433e8808263358875c9330155257ec566532e8e50d4687c7f21739",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_230342633d49c59c",
+      "cache_key": "cfcc452ab2c6f63f98d2fd74164c645675bf920c8ab523c37416c6196e5b3dd9",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 1,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_4f763180e2f817c7",
+      "cache_key": "8e9d2bbfd3194844f9439183e426ee10e994758c1dd2fa0b8dd63ec56929ab37",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_84800638d86c6c06",
+      "cache_key": "12988241e37be95b24bffb4ddcf3aa1dbd64963016b69810c9bb7e3e9d9951cf",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_b2f2758456d92693",
+      "cache_key": "f15b53f968caeaa25d55e40d9cd8bfc8fe48226990eeb02d20a8f97bf3b4bee4",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_b39b1c267e56ec83",
+      "cache_key": "fc61f34c80f5df137049f7910f28df88162b95d8fa9b535d0649176d6da7ce74",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_d93218b480a7f3ac",
+      "cache_key": "cdd1f385be6a15f0849aab3e9bfdc421233e66b150890840041fe2edc9c8cd22",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_9040caed28a05ccc",
+      "cache_key": "d5642f6fe2a59b7a03f30d8261690838c793b033e145126196af6657f564cd0c",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_a9f7102d97d90949",
+      "cache_key": "539b45a636184a5de1890668c84bfcc5929ca1c0f01ee5db9076ed63d78f9548",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_4c85d4eb23224a69",
+      "cache_key": "bb1adbc308f67bd4ffff1995b7298f19b0a9d133090bea514f62adf2f46bd3da",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 2,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_c0408d01835f2570",
+      "cache_key": "72a5863ba505923e4bb5f0d4c5495aac5775efe0c7c0ef7004cbe8a25d9e2842",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 2,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_267dcc322693f35f",
+      "cache_key": "e49d19043b283055720db4a96636115ee0966880f4c49d135e3ea1ae221bff68",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_18e8a02feb417e41",
+      "cache_key": "d3aa599017afe905550c0822eef2bfb6b264b8cbc6ce2d4f0d4ea113e7834922",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_b904f2abf4c97462",
+      "cache_key": "bba8a2cb6ee4516b3364f8586b3e4a54a176176439e127d6d0bc33db38a5e959",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_43e4ce11af0b19bb",
+      "cache_key": "b14c052d6221d58d0a02462d2e6d33ba5997487895c17ff1a4a875dc20dc04bd",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_d02e3be0c34bb84a",
+      "cache_key": "6f8ab434068f85bbecb8f8ec0921bafee7a85c528198ceec61e423388f0ea791",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_43214fb5d71727ac",
+      "cache_key": "0703c1a8926de92943161db918f16400ef48c7cd1ec54b8b81c0902baa0b0f89",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_17de508af308756c",
+      "cache_key": "aa93cb0dbbd04783fceac7e20b72fee10b252c913f1e391951019b7fe58644d6",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_c772bc512ed0d39c",
+      "cache_key": "73aaed835cfb8b07dbc4dc747b4cadba129294349ff1dbb849da98803401e40f",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_4bb0cdc8ba7c0aea",
+      "cache_key": "003364daa428e6ca8a57bc3f8b50ecea0969b1b2b97422e6a4a9ac44a4ef165f",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 2,
+      "batch_id": 3,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_678aa0c89b19e52d",
+      "cache_key": "c4ff0292e4fdd3cdeea551c7e5c13310364153d8ca6c616c66bd443f62bed715",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_e5a7260f06895083",
+      "cache_key": "eac044763b7ad8799f135d14c24b23eab32e17322f402ab278b0d02f3fbd2a52",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_d7245c5af631b69f",
+      "cache_key": "e62462c17dfaca075ea1433fbee3eae00d2f73331872a832bc95c5fc5c64bfce",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_91e68e58f18d47ca",
+      "cache_key": "ef5af779a7a5f53209384de2d2dceeeadb349655c3a2a4464009e70b5bb5388e",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_75cb559a205b3b4a",
+      "cache_key": "a4ea1001cc0bb80ae21716870070e70ee7dbffdd994dda776ea5d548d9ab8761",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_19989928ca6fa42d",
+      "cache_key": "6cbe7294b162f187a5b0ce23c2eacd508b6443443c5fd32751d80a4d5b040689",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_b43fba690d6f8084",
+      "cache_key": "6c5fb258a01e1fa1daed8992cd1a3e568e00393d4e344565dddf2b0032fd1e92",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_d6eb4e5302c18b9e",
+      "cache_key": "b4972888648cc38c380037c7eb020648a0b18b38185503638355a3410266b5d4",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 3,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_fe2bdfa76af9b763",
+      "cache_key": "a5c398747da1ce06172278fe86361bbe1fd517b02d77c6b2f298d51088921c02",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 4,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_9f401bfce02edf3b",
+      "cache_key": "ad32978bf5c2edf0bf5cbcce30d5147c051bc33841a315585d2d05f7b2feb08b",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_aa9ada664e26d5cc",
+      "cache_key": "5944c3c28d42453477d8fc9253aaac280526e805d63810b57a5e0e158264d728",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_d8239c6a85ca60ba",
+      "cache_key": "35c455360e3d1cb6c63dad473414a305da622bd68dd46b4ebe9174dd00ab473a",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_45d7960c895ee247",
+      "cache_key": "638fa385de528873b7d34c878d747d4766916da1b14d9b9405deb330b1b128d6",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_6e7d4d8ea1f400d1",
+      "cache_key": "fc07ec863f98345a29b978ab938ba327529b0675f4a75198bad60d5b708dcef1",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_c978a83a78e11bdb",
+      "cache_key": "952d217e275b7e458a25d5371b70285d53d4b1997b8f2668f89deb1bfc7a0e0e",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_2663614c8e3ed876",
+      "cache_key": "59bdd9379f974536861def268dd61c6d6b3083e2b92b21503ce0b009979e31f8",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_8314b0afeabaf806",
+      "cache_key": "41cb52fc0ca2077dbe77d246974a96bca17d104d816579e1627bc8a913e355c8",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_3f60035e90b62166",
+      "cache_key": "9e98acf3b62729cbbe71c1c9682a026312b573aeac868cae9779c1941e6c686b",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 5,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_9c691cff6bf4ea9d",
+      "cache_key": "7232443370d03d57589c2b95ba05e7bf79c668114324e2527b74639b46b12c4f",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_10b39554762b5945",
+      "cache_key": "f6f5c8b9a09f4df82f59e3797e1fe29f257c9d77e688a21bd47be96f3609677d",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_07bcead7ee3d6e6d",
+      "cache_key": "3adad87414c6d962137fdacd6eefe07ce9f7a9b07c8ae21f3d4da6869f38bf15",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_81d4dd5fbd66a2c0",
+      "cache_key": "cf3f08dbe194e51a210b124386f88cf968be9adf4d7a5a893867af2170c88429",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_a11b7d08fd625928",
+      "cache_key": "b8fec07f699ea5c0f020adb0c340877866b3223bff62667116e89c43a668dd27",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_dc8a3a0162d3e25b",
+      "cache_key": "0b9452d53608e933cb63dbbc2066d59a326cd6f9d1aafe6c451e7810092fd31b",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_926c5fb32697ba09",
+      "cache_key": "59c665bf132a122b5951450a07df2247cec3fec7738f81a98d33b1773c25a9cf",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 3,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_5a2348bd8125d420",
+      "cache_key": "67d4ad2e7ea0520920647df111100a568caad4bacb844ab9995654092a8b6a89",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_8f8b34f417c1d1dc",
+      "cache_key": "baaae5b7da92301211aabc0f4b07d50920969ff69ec24a282275271bf5252103",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 6,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_136f75acb8951ba0",
+      "cache_key": "baaae5b7da92301211aabc0f4b07d50920969ff69ec24a282275271bf5252103",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_488093599182ea73",
+      "cache_key": "457a6602e5c525f02739e8edc4e0036c6527b5aa310ed080c6275c260f769fcb",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_ba69f1b728ad53f8",
+      "cache_key": "376ba908749e0aa36cebc9c7ea67a3c5b328e2695870e92b03d08da27e9a9118",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_7d4b87aab90b37bd",
+      "cache_key": "832017f8caf4897e3a4576e5199385339b6e469acd02683543846d9e5906d5d9",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_54e409dbd1b3c000",
+      "cache_key": "dc9f0a9ee15bc41461eaa339631cd42d34be34e6e13f5be1b564b20ec383f4c6",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 1,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_c9def349673cfa01",
+      "cache_key": "c5f8b09d0a6655e6281de54149a4929439bcecb60eec866771d60c01012d3219",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_986fd7fedfb0a968",
+      "cache_key": "e802e6480d7e84bc64c90943c905dc72d956cc4accb9219a064d13bc453eaf1c",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_9baeaf1a12fafb77",
+      "cache_key": "2c29cda892dc399085f93fc347ad6b1055b214ee5f48f50ad2c4bb934e5d840c",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_f7fadec5648ae244",
+      "cache_key": "887ef33755ca87804b9a147472aaab4ce45a7fe6b28dd58a4586676529a6a01b",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 7,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_b7b1a21e62791aa5",
+      "cache_key": "91949ed3e3dfaad5cc355398fdeb7b67b2c2037800502394e72874212cbcd73a",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 8,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_1c4a778154570ac1",
+      "cache_key": "857c9dce4c905407028916a7a7a36ee7968087516e0a7c2bff760c34127b8205",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_FRAMES",
+      "frame_count": 3,
+      "batch_id": 8,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    },
+    {
+      "doc_id": "doc_4f87d6c002b2ac8b",
+      "cache_key": "3674150f7601b2fde2836b4bb34845d202c19c2ca12ee2b6a00e4f15a861989e",
+      "model_id": "gpt-5.6-terra",
+      "prompt_version": "tmf_extraction_v1",
+      "provider_status": "PROVIDER_OK_EMPTY",
+      "frame_count": 0,
+      "batch_id": 8,
+      "generated_at": "2026-09-29T13:27:27.017243+00:00"
+    }
+  ]
+}

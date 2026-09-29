@@ -44,6 +44,11 @@ def _deterministic_embedding(monkeypatch):
     monkeypatch.setenv("WSR_EMBEDDING_BACKEND", "deterministic")
 
 
+@pytest.fixture(autouse=True)
+def _discovery_v1_only(monkeypatch):
+    monkeypatch.delenv("DISCOVERY_V2_ENABLED", raising=False)
+
+
 # --- TEST-A ---
 
 

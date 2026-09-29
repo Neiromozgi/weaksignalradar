@@ -1,0 +1,1 @@
+{"frames": [{"evidence_span": "применение открытых API", "function": "интеграция с традиционными финансовыми институтами", "label": "TECHNOLOGY_MECHANISM", "mechanism": "открытые API", "object": "финтех-сервисы"}], "prompt_version": "tmf_extraction_v1"}

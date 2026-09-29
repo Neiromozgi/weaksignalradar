@@ -8,6 +8,7 @@ from typing import Any
 
 import httpx
 
+from ..discovery_v2.llm_run_budget import try_consume_llm_provider_slot
 from .base import LLMAdapter, TechnicalSignature
 from .extraction_schema import validate_extraction_payload
 from .profile import (
@@ -46,6 +47,21 @@ class OpenAIResponsesExtractionAdapter(LLMAdapter):
         candidate_name: str,
         evidence_texts: list[str],
     ) -> TechnicalSignature:
+        allowed, reason = try_consume_llm_provider_slot()
+        if not allowed:
+            return TechnicalSignature(
+                object_class=None,
+                function=None,
+                mechanism=None,
+                architecture_or_process=None,
+                key_technical_property=None,
+                extraction_status="PARTIAL",
+                evidence_span_refs=[],
+                llm_model_id=LLM_MODEL,
+                prompt_version=PROMPT_BUNDLE_VERSION,
+                validation_status=reason or "LLM_BUDGET_BLOCKED",
+                llm_profile_id=LLM_PROFILE_ID,
+            )
         evidence_block = "\n---\n".join(evidence_texts[:20])
         instructions = (
             "Extract evidence-grounded technical signature facets only. "
